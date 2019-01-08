@@ -15,6 +15,31 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	photo: {
+		data: Buffer,
+		type: String
+	},
+	//has many followings
+	following: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'users'
+		}
+	],
+	//has many followers
+	followers: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'users'
+		}
+	],
+	//can like many tags
+	tags: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'tags'
+		}
+	],
 	date: {
 		type: Date,
 		default: Date.now()

@@ -48,7 +48,7 @@ router.post('/register', (req, res) => {
 		}
 	})
 })
-/***********************REGISTRATION****************************/
+/***********************END OF REGISTRATION****************************/
 
 /***************************LOGIN*******************************/
 router.post('/login', (req, res) => {
@@ -84,7 +84,87 @@ router.post('/login', (req, res) => {
 		}
 	})
 })
-/***************************LOGIN*******************************/
+/***************************END OF LOGIN*******************************/
+
+/***************************ADD FOLLOWING*******************************/
+router.put('/follow', (req, res) => {
+	const errors = {}
+	const { userId, followId } = req.body
+	User.findByIdAndUpdate(userId, { $push: { following: followId } })
+		.populate('following', '_id name')
+		.populate('followers', '_id name')
+		.exec()
+		.then(user => {
+			if (!user) {
+				errors.nouser = 'There is no user by that id'
+			} else {
+				res.json(user)
+			}
+		})
+		.catch(err => {
+			res.status(400).json(err)
+		})
+})
+/***************************END OF ADD FOLLOWING*******************************/
+
+/***************************ADD FOLLOWER*******************************/
+router.put('/followers', (req, res) => {
+	const errors = {}
+	const { followId, userId } = req.body
+	User.findByIdAndUpdate(
+		followId,
+		{ $push: { followers: userId } },
+		{ new: true }
+	)
+		.populate('following', '_id name')
+		.populate('followers', '_id name')
+		.exec()
+		.then(user => {
+			if (!user) {
+				errors.nouser = 'There is no user by that id'
+			} else {
+				user.password = undefined
+				res.json(user)
+			}
+		})
+		.catch(err => res.status(400).json(err))
+})
+/***************************END OF ADD FOLLOWER*******************************/
+
+/***************************UNFOLLOW*******************************/
+router.put('/unfollow', (req, res) => {
+	const { userId, unfollowId } = req.body
+	User.findByIdAndUpdate(userId, { $pull: { following: unfollowId } })
+		.exec()
+		.populate('following', '_id name')
+		.populate('followers', '_id name')
+		.then(result => {
+			result.password = undefined
+			res.json(result)
+		})
+		.catch(err => res.status(400).json(err))
+})
+/***************************END OF UNFOLLOW*******************************/
+
+/***************************REMOVE A FOLLOWER*******************************/
+router.put('/removefollower', (req, res) => {
+	const { userId, followerId } = req.body
+	User.findByIdAndUpdate(
+		followerId,
+		{ $pull: { followers: userId } },
+		{ new: true }
+	)
+		.populate('following', '_id name')
+		.populate('followers', '_id name')
+		.exec((err, result) => {
+			if (err) {
+				return res.status(400).json(err)
+			}
+			result.password = undefined
+			res.json(result)
+		})
+})
+/***************************END OF REMOVE A FOLLOWER*******************************/
 
 /***********************GET CURRENT USER****************************/
 //throws error if not private.
@@ -95,6 +175,6 @@ router.get(
 		res.json({ id: req.user.id, name: req.user.id, email: req.user.email })
 	}
 )
-/***********************GET CURRENT USER****************************/
+/***********************END OF GET CURRENT USER****************************/
 
 module.exports = router
