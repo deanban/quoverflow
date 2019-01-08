@@ -24,6 +24,7 @@ module.exports = function validateLogin(data) {
 
 	return {
 		errors,
+		//only if errors object is empty then return isValid = true
 		isValid: isEmpty(errors)
 	}
 }
