@@ -6,6 +6,8 @@ const passport = require('passport')
 // const path = require('path')
 
 const users = require('./controllers/api/v1/users')
+const questions = require('./controllers/api/v1/questions')
+const answers = require('./controllers/api/v1/answers')
 
 //passport config
 require('./config/passport')(passport)
@@ -20,6 +22,8 @@ app.use(bodyparser.json())
 app.use(passport.initialize())
 
 app.use('/api/users', users)
+app.use('/api/questions', questions)
+app.use('/api/answers', answers)
 /*********************SET UPS*************************/
 
 /********************DB config*********************/

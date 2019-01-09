@@ -33,6 +33,18 @@ const UserSchema = new Schema({
 			ref: 'users'
 		}
 	],
+	questions: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'questions'
+		}
+	],
+	answers: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'answers'
+		}
+	],
 	//can like many tags
 	tags: [
 		{
@@ -46,4 +58,4 @@ const UserSchema = new Schema({
 	}
 })
 
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = mongoose.model('users', UserSchema)
