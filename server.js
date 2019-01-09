@@ -6,6 +6,9 @@ const passport = require('passport')
 // const path = require('path')
 
 const users = require('./controllers/api/v1/users')
+
+//passport config
+require('./config/passport')(passport)
 /*********************REQUIRES*************************/
 
 /*********************SET UPS*************************/
@@ -13,7 +16,7 @@ const app = express()
 
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
-
+//passport middleware
 app.use(passport.initialize())
 
 app.use('/api/users', users)

@@ -167,12 +167,12 @@ router.put('/removefollower', (req, res) => {
 /***************************END OF REMOVE A FOLLOWER*******************************/
 
 /***********************GET CURRENT USER****************************/
-//throws error if not private.
+//PROTECTED
 router.get(
 	'/current',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		res.json({ id: req.user.id, name: req.user.id, email: req.user.email })
+		res.json({ id: req.user.id, name: req.user.name, email: req.user.email })
 	}
 )
 /***********************END OF GET CURRENT USER****************************/
