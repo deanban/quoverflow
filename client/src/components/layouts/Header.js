@@ -1,56 +1,92 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Bounce from 'react-reveal/Bounce';
 
 const Header = props => (
   <header className="main-head">
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="#">
-        Navbar
+        <Bounce top>
+          <i className="fab fa-2x fa-quora" />
+        </Bounce>
+        OverFlow
       </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarColor03"
-        aria-controls="navbarColor03"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarColor03">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <a className="nav-link" href="#">
-              Home
-              {' '}
-              <span className="sr-only">(current)</span>
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Features
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Pricing
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              About
-            </a>
-          </li>
-        </ul>
-        <form className="form-inline my-2 my-lg-0">
-          <input className="form-control mr-sm-2" type="text" placeholder="Search" />
-          <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+      <div className="container h-50">
+        <div className="d-flex h-50">
+          <div className="collapse navbar-collapse" id="navbarColor03">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  <i className="fas fa-2x fa-home" />
+                  {'  '}
+                  Home
+                  <span className="sr-only">(current)</span>
+                </a>
+              </li>
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  <i className="fas fa-2x fa-microphone-alt" />
+                  {'  '}
+                  Answer
+                </a>
+              </li>
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  <i className="far fa-2x fa-bell" />
+                  {'  '}
+                  Notification
+                </a>
+              </li>
+            </ul>
+            <div className="searchbar">
+              <input className="search_input" type="text" name="" placeholder="Search..." />
+              <a href="#" className="search_icon">
+                {'   '}
+                <i className="fas fa-search" />
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+      <ul className="navbar-nav">
+        <li className="nav-item active dropdown">
+          <a
+            className="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i className="fa fa-2x fa-user" aria-hidden="true" />
+          </a>
+          <div
+            className="dropdown-menu"
+            x-placement="bottom-start"
+            style={{
+              position: 'absolute',
+              'will-change': 'transform',
+              top: '0px',
+              left: '0px',
+              transform: 'translate3d(0px, 39px, 0px)',
+            }}
+          >
+            <a className="dropdown-item" href="#">
+              Profile
+            </a>
+            <a className="dropdown-item" href="#">
+              Following
+            </a>
+            <a className="dropdown-item" href="#">
+              Followers
+            </a>
+            <div className="dropdown-divider" />
+            <a className="dropdown-item" href="#">
+              Logout
+            </a>
+          </div>
+        </li>
+      </ul>
     </nav>
   </header>
 );
