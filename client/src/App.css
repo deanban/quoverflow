@@ -1,0 +1,136 @@
+.App {
+  /* text-align: center; */
+  max-height: 100vh;
+}
+
+/* .App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  grid-area: header;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: grid | inline-grid;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+* {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  min-height: 100vh;
+  max-width: 90%;
+  margin: 0 auto;
+  font: 1.2em Helvetica, arial, sans-serif;
+}
+
+.wrapper > * {
+  border: 2px solid #f08c00;
+  background-color: #ffec99;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+nav ul {
+  text-align: left;
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.main-head {
+  text-align: center;
+  grid-area: header;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.content {
+  grid-area: content;
+}
+.main-nav {
+  grid-area: nav;
+}
+.side {
+  grid-area: sidebar;
+  text-align: end;
+}
+.ad {
+  grid-area: ad;
+  text-align: end;
+}
+.main-footer {
+  grid-area: footer;
+  text-align: center;
+}
+.wrapper {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-areas:
+    "header"
+    "nav"
+    "content"
+    "sidebar"
+    "ad"
+    "footer";
+}
+@media (min-width: 500px) {
+  .wrapper {
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas:
+      "header  header"
+      "nav     nav"
+      "sidebar content"
+      "ad      footer";
+  }
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 700px) {
+  .wrapper {
+    grid-template-columns: 2fr 6fr 1fr;
+    grid-template-areas:
+      "header header  header"
+      "header header  header"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content sidebar"
+      "nav    content ad"
+      "nav    content ad"
+      "nav    content ad"
+      "nav    content ad"
+      "nav    content ad"
+      "footer footer  footer"
+      "footer footer  footer";
+  }
+  nav ul {
+    flex-direction: column;
+  }
+}
