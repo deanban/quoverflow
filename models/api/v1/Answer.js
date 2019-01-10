@@ -6,12 +6,14 @@ const AnswerSchema = new Schema({
 	//belongs to an user
 	user: {
 		type: Schema.Types.ObjectId,
-		ref: 'users'
+		ref: 'users',
+		required: true
 	},
 	//belongs to a question
 	question: {
 		type: Schema.Types.ObjectId,
-		ref: 'question'
+		ref: 'question',
+		required: true
 	},
 	text: {
 		type: String,
@@ -23,7 +25,8 @@ const AnswerSchema = new Schema({
 		{
 			user: {
 				type: Schema.Types.ObjectId,
-				ref: 'users'
+				ref: 'users',
+				required: true
 			}
 		}
 	],
@@ -33,7 +36,8 @@ const AnswerSchema = new Schema({
 			//comment to an answer belongs to an user
 			user: {
 				type: Schema.Types.ObjectId,
-				ref: 'users'
+				ref: 'users',
+				required: true
 			},
 			text: {
 				type: String,
@@ -45,7 +49,8 @@ const AnswerSchema = new Schema({
 				{
 					user: {
 						type: Schema.Types.ObjectId,
-						ref: 'users'
+						ref: 'users',
+						required: true
 					}
 				}
 			],

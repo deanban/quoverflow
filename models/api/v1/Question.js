@@ -6,13 +6,15 @@ const QuestionSchema = new Schema({
 	//belongs to an user
 	user: {
 		type: Schema.Types.ObjectId,
-		ref: 'users'
+		ref: 'users',
+		required: true
 	},
 	//belongs to many tags
 	tags: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: 'tags'
+			// required: true
 		}
 	],
 	//has many answers

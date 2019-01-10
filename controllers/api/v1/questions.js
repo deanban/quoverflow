@@ -20,7 +20,7 @@ router.get('/', (_, res) => {
 /*********************QUESTIONS ASKED BY USER*********************/
 router.get('/findquestions', (req, res) => {
 	Question.find({ user: req.body.userId })
-		.populate('answers', '_id text')
+		.populate('answer', '_id text')
 		// .populate('tags', '_id text')
 		.sort({ date: -1 })
 		.exec()

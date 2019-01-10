@@ -6,7 +6,8 @@ const ProfileSchema = new Schema({
 	//belongs to an user
 	user: {
 		type: Schema.Types.ObjectId,
-		ref: 'users'
+		ref: 'users',
+		required: true
 	},
 	//has many questions
 	questions: [
