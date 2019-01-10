@@ -9,56 +9,90 @@ export class Feed extends Component {
 
   render() {
     return (
-      <nav className="main-nav">
-        <h1 className="main-h1">Feed</h1>
-        <div className="list-group">
-          <a
-            className="list-group-item list-group-item-action flex-column align-items-start"
-            href="/"
-          >
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">Nav 1</h5>
-            </div>
-            <p className="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-              blandit.
+      <feed className="main-feed">
+        <h1 className="main-h1 mb-3">Feed</h1>
+        <hr />
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
             </p>
-            <small className="text-muted">Donec id elit non mi porta.</small>
-          </a>
+          </div>
         </div>
-        <hr className="my-3" />
-        <div className="list-group">
-          <a
-            className="list-group-item list-group-item-action flex-column align-items-start"
-            href="/"
-          >
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">Nav 2</h5>
-            </div>
-            <p className="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-              blandit.
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
             </p>
-            <small className="text-muted">Donec id elit non mi porta.</small>
-          </a>
+          </div>
         </div>
-        <hr className="my-3" />
-        <div className="list-group">
-          <a
-            className="list-group-item list-group-item-action flex-column align-items-start"
-            href="/"
-          >
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">Nav 3</h5>
-            </div>
-            <p className="mb-1">
-              Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-              blandit.
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
             </p>
-            <small className="text-muted">Donec id elit non mi porta.</small>
-          </a>
+          </div>
         </div>
-      </nav>
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </p>
+          </div>
+        </div>
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </p>
+          </div>
+        </div>
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </p>
+          </div>
+        </div>
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </p>
+          </div>
+        </div>
+        <div className="card border-dark mb-3" style={{ 'max-width': '20rem' }}>
+          <div className="card-header">Followed Tag</div>
+          <div className="card-body">
+            <h4 className="card-title"> Most Viewed Question</h4>
+            <p className="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card's
+              content.
+            </p>
+          </div>
+        </div>
+      </feed>
     );
   }
 }
