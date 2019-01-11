@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // import { Provider } from 'react-redux';
+import Landing from './components/layouts/Landing';
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
 import Feed from './components/layouts/Feed';
@@ -12,16 +13,19 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="wrapper">
-          <Header />
-          <Feed />
-          <Article />
-          <Sidenav />
-          <Ads />
-          <Footer />
+      <Router>
+        <div className="App">
+          <Route exact path="/" component={Landing} />
+          <div className="wrapper">
+            {/* <Header />
+            <Feed />
+            <Article />
+            <Sidenav />
+            <Ads />
+            <Footer /> */}
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
