@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 export class Landing extends Component {
   static propTypes = {
-    prop: PropTypes,
+    prop: PropTypes
   };
 
   render() {
@@ -36,7 +36,10 @@ export class Landing extends Component {
                     <div className="col-lg-12 loginbttm">
                       <div className="col-lg-2 login-btm login-text" />
                       <div className="col-lg-8 login-btm login-button">
-                        <button type="submit" className="btn btn-outline-primary btn-block">
+                        <button
+                          type="submit"
+                          className="btn btn-outline-primary btn-block"
+                        >
                           LOG IN
                         </button>
                       </div>

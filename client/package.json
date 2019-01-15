@@ -22,7 +22,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js, jsx, json, css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
