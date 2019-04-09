@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Bounce from 'react-reveal/Bounce';
+import React from "react";
+import PropTypes from "prop-types";
+import Bounce from "react-reveal/Bounce";
 
 const Header = props => (
   <header className="main-head">
@@ -18,7 +18,7 @@ const Header = props => (
               <li className="nav-item active">
                 <a className="nav-link" href="#">
                   <i className="fas fa-2x fa-home" />
-                  {'  '}
+                  {"  "}
                   Home
                   <span className="sr-only">(current)</span>
                 </a>
@@ -26,22 +26,27 @@ const Header = props => (
               <li className="nav-item active">
                 <a className="nav-link" href="#">
                   <i className="fas fa-2x fa-microphone-alt" />
-                  {'  '}
+                  {"  "}
                   Answer
                 </a>
               </li>
               <li className="nav-item active">
                 <a className="nav-link" href="#">
                   <i className="far fa-2x fa-bell" />
-                  {'  '}
+                  {"  "}
                   Notification
                 </a>
               </li>
             </ul>
             <div className="searchbar">
-              <input className="search_input" type="text" name="" placeholder="Search..." />
+              <input
+                className="search_input"
+                type="text"
+                name=""
+                placeholder="Search..."
+              />
               <a href="#" className="search_icon">
-                {'   '}
+                {"   "}
                 <i className="fas fa-search" />
               </a>
             </div>
@@ -64,11 +69,11 @@ const Header = props => (
             className="dropdown-menu"
             x-placement="bottom-start"
             style={{
-              position: 'absolute',
-              'will-change': 'transform',
-              top: '0px',
-              left: '0px',
-              transform: 'translate3d(0px, 39px, 0px)',
+              position: "absolute",
+              "will-change": "transform",
+              top: "0px",
+              left: "0px",
+              transform: "translate3d(0px, 39px, 0px)"
             }}
           >
             <a className="dropdown-item" href="#">

@@ -15,14 +15,14 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Route exact path="/" component={Landing} />
+          {/* <Route exact path="/" component={Landing} /> */}
           <div className="wrapper">
-            {/* <Header />
+            <Header />
             <Feed />
             <Article />
             <Sidenav />
             <Ads />
-            <Footer /> */}
+            <Footer />
           </div>
         </div>
       </Router>

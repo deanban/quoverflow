@@ -18,7 +18,7 @@ export class Landing extends Component {
                 <i className="fa fa-key" aria-hidden="true" />
               </div>
               <div className="col-lg-12 login-title">
-                <h3>qoverflow</h3>
+                <h3>quoverflow</h3>
               </div>
 
               <div className="col-lg-12 login-form">
