@@ -1,5 +1,5 @@
 CREATE TABLE userCategory (
-  "userId" INTEGER REFERENCES user(id),
+  "accountId" INTEGER REFERENCES account(id),
   "categoryId" INTEGER REFERENCES category(id),
-  PRIMARY KEY ("userId", "categoryId")
+  PRIMARY KEY ("accountId", "categoryId")
 );
