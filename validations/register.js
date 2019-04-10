@@ -5,7 +5,8 @@ module.exports = function validateRegistration(data) {
 	let errors = {}
 
 	//run all the data through custom isEmpty function first
-	data.name = !isEmpty(data.name) ? data.name : ''
+	data.firstName = !isEmpty(data.firstName) ? data.firstName : ''
+	data.lastName = !isEmpty(data.lastName) ? data.lastName : ''
 	data.email = !isEmpty(data.email) ? data.email : ''
 	data.password = !isEmpty(data.password) ? data.password : ''
 	data.password2 = !isEmpty(data.password2) ? data.password2 : ''
@@ -16,12 +17,20 @@ module.exports = function validateRegistration(data) {
 	//pass: length, not empty
 	//pass2: length, not empty
 	//pass1 === pass2
-	if (!validator.isLength(data.name, { min: 2, max: 30 })) {
-		errors.name = 'Name must be between 2 and 30 characters'
+	if (!validator.isLength(data.firstName, { min: 2, max: 30 })) {
+		errors.firstName = 'Name must be between 2 and 30 characters'
 	}
 
-	if (validator.isEmpty(data.name)) {
-		errors.name = 'You can not leave your name empty.'
+	if (validator.isEmpty(data.firstName)) {
+		errors.firstName = 'You can not leave your firstName empty.'
+	}
+
+	if (!validator.isLength(data.lastName, { min: 2, max: 30 })) {
+		errors.lastName = 'Name must be between 2 and 30 characters'
+	}
+
+	if (validator.isEmpty(data.lastName)) {
+		errors.lastName = 'You can not leave your lastName empty.'
 	}
 
 	if (validator.isEmpty(data.email)) {
@@ -54,3 +63,13 @@ module.exports = function validateRegistration(data) {
 		isValid: isEmpty(errors)
 	}
 }
+
+// const data = {
+// 	firstName: 'd',
+// 	lastName: '',
+// 	email: 'd@d.com',
+// 	password: '123456',
+// 	password2: '123456'
+// }
+
+// console.log(validateRegistration(data))
