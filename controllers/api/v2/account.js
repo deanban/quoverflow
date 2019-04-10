@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
 
+const secretKey = require('../../../config/mlab_keys').jwtKey
+
 const router = express.Router()
 
 const validateRegistration = require('../../../validations/register')
@@ -26,6 +28,44 @@ router.post('/register', (req, res, next) => {
 			}
 		})
 		.catch(err => next(err))
+})
+
+router.post('/login', (req, res, next) => {
+	const { errors, isValid } = validateLogin(req.body)
+	const { email, password } = req.body
+
+	//if validations fail
+	if (!isValid) return res.status(400).json(errors)
+
+	Account.getAccount({ email })
+		.then(({ account }) => {
+			if (account) {
+				if (bcrypt.compareSync(password, account.password.trim())) {
+					const jwtPayload = {
+						id: account.id,
+						firstName: account.firstName
+					}
+					jwt.sign(jwtPayload, secretKey, { expiresIn: '1h' }, (err, token) => {
+						if (err) throw err
+						return res.json({
+							success: true,
+							token: 'Bearer ' + token
+						})
+					})
+				} else {
+					errors.password = 'Incorrect Password'
+					return res.status(409).json(errors)
+				}
+			} else {
+				// console.log('no here')
+				errors.email = 'User with that email address does not exist!'
+				res.status(400).json(errors)
+			}
+		})
+		.catch(err => {
+			console.log('here too')
+			next(err)
+		})
 })
 
 module.exports = router

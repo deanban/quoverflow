@@ -12,17 +12,20 @@ module.exports = class Account {
 	static storeAccount({ firstName, lastName, email, password }) {
 		return new Promise((resolve, reject) => {
 			const hash = bcrypt.hashSync(password, 10)
-			pool.query(
-				`INSERT INTO
-         account("firstName", "lastName", email, password)
-         VALUES($1,$2,$3,$4)`,
-				[firstName, lastName, email, hash],
-				(err, res) => {
-					if (err) return reject(err)
-					console.log(res.rows)
-					resolve()
-				}
-			)
+			pool.connect((err, client, release) => {
+				client.query(
+					`INSERT INTO
+           account("firstName", "lastName", email, password)
+           VALUES($1,$2,$3,$4)`,
+					[firstName, lastName, email, hash],
+					(err, res) => {
+						if (err) return reject(err)
+						console.log(res.rows)
+						resolve()
+					}
+				)
+				client.release()
+			})
 		})
 	}
 

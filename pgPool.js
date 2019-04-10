@@ -9,6 +9,7 @@ const pool = new Pool({
 	database: process.env.DATABASE,
 	password: process.env.DB_PASSWORD,
 	port: process.env.DB_PORT,
+	max: process.env.MAX,
 	connectionString: process.env.DATABASE_URL
 })
 
