@@ -84,11 +84,11 @@ module.exports = class Question {
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.log(err))
 
-Question.getQuestionsByAccount({
-	accountId: 10
-})
-	.then(({ questions }) => console.log(questions))
-	.catch(err => console.log(err))
+// Question.getQuestionsByAccount({
+// 	accountId: 10
+// })
+// 	.then(({ questions }) => console.log(questions))
+// 	.catch(err => console.log(err))
 
 // Question.getAllQuestions()
 // 	.then(({ questions }) => console.log(questions))
