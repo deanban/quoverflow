@@ -1,6 +1,6 @@
 const pool = require('../../../pgPool')
 
-class Category {
+module.exports = class Category {
 	constructor(id, name) {
 		this.id = id
 		this.name = name
@@ -34,6 +34,19 @@ class Category {
 		})
 	}
 
+	static getCategoryById({ id }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				'SELECT id, name FROM category WHERE id=$1',
+				[id],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ category: res.rows[0] })
+				}
+			)
+		})
+	}
+
 	static getAllCategories() {
 		return new Promise((resolve, reject) => {
 			pool.query('SELECT * FROM category', (err, res) => {
@@ -44,10 +57,14 @@ class Category {
 	}
 }
 
-// Category.getCategoryByName({ name: 'Technology' })
+/***************************************************************
+                         DEBUGGER CODES
+***************************************************************/
+
+// Category.getCategoryById({ id: 2 })
 // 	.then(({ category }) => console.log(category))
 // 	.catch(err => console.log(err))
 
-Category.getAllCategories()
-	.then(({ categories }) => console.log(categories))
-	.catch(err => console.log(err))
+// Category.getAllCategories()
+//  .then(({ categories }) => console.log(categories))
+// 	.catch(err => console.log(err))
