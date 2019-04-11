@@ -45,10 +45,12 @@ app.use(bodyparser.json())
 //passport middleware
 app.use(passport.initialize())
 
+//old routes with mongo
 app.use('/api/users', users)
 app.use('/api/questions', questions)
 app.use('/api/answers', answers)
 
+//new routes with postgres
 app.use('/api/accounts', accounts)
 /*********************SET UPS*************************/
 
