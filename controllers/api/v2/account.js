@@ -18,7 +18,7 @@ router.post('/register', (req, res, next) => {
 	//if validations fail
 	if (!isValid) return res.status(400).json(errors)
 
-	Account.getAccount({ email })
+	Account.getAccountByEmail({ email })
 		.then(({ account }) => {
 			if (account) {
 				errors.email = 'User with that email address already exits!'
@@ -37,13 +37,14 @@ router.post('/login', (req, res, next) => {
 	//if validations fail
 	if (!isValid) return res.status(400).json(errors)
 
-	Account.getAccount({ email })
+	Account.getAccountByEmail({ email })
 		.then(({ account }) => {
 			if (account) {
 				if (bcrypt.compareSync(password, account.password.trim())) {
 					const jwtPayload = {
 						id: account.id,
-						firstName: account.firstName
+						firstName: account.firstName,
+						email: account.email
 					}
 					jwt.sign(jwtPayload, secretKey, { expiresIn: '1h' }, (err, token) => {
 						if (err) throw err
@@ -63,9 +64,23 @@ router.post('/login', (req, res, next) => {
 			}
 		})
 		.catch(err => {
-			console.log('here too')
+			// console.log('here too')
 			next(err)
 		})
 })
+
+router.get(
+	'/current',
+	passport.authenticate('jwt', { session: false }),
+	(req, res, next) => {
+		// console.log(req)
+		res.json({
+			id: req.user.id,
+			firstName: req.user.firstName.trim(),
+			lastName: req.user.lastName.trim(),
+			email: req.user.email.trim()
+		})
+	}
+)
 
 module.exports = router

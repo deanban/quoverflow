@@ -29,12 +29,26 @@ module.exports = class Account {
 		})
 	}
 
-	static getAccount({ email }) {
+	static getAccountByEmail({ email }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
-				`SELECT id, "firstName", "lastName", password FROM ACCOUNT
-        WHERE email=$1`,
+				`SELECT id, "firstName", "lastName", email, password
+         FROM account WHERE email=$1`,
 				[email],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ account: res.rows[0] })
+				}
+			)
+		})
+	}
+
+	static getAccountById({ id }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				`SELECT id, "firstName", "lastName", email
+        FROM account WHERE id=$1`,
+				[id],
 				(err, res) => {
 					if (err) return reject(err)
 					resolve({ account: res.rows[0] })
