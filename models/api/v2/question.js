@@ -9,7 +9,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-module.exports = class Question {
+class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -34,14 +34,18 @@ module.exports = class Question {
 	}
 
 	//get top 5 similar questions
-	static getSimilarQuestions({ body, accountId, categoryId }) {
+	//not very smart, but super fast
+	//test was with 10 million fake entries, took 33ms.
+	//TODO: will add NLP to extract important words from body
+	//before running it through the query.
+	static getSimilarQuestions({ body }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
 				`SELECT id, body
         FROM (SELECT id, body, token
         FROM question, plainto_tsquery($1) AS questions
-        WHERE (token @@ questions)) AS t1
-        ORDER BY ts_rank_cd(t1.token, plainto_tsquery($1))
+        WHERE (token @@ questions)) AS tokens
+        ORDER BY ts_rank_cd(tokens.token, plainto_tsquery($1))
         DESC LIMIT 5`,
 				[body],
 				(err, res) => {
@@ -104,10 +108,7 @@ module.exports = class Question {
 // 	.catch(err => console.log(err))
 
 // Question.getSimilarQuestions({
-// 	body:
-// 		'What did you think about the new pictures from Event Horizon Telescope?',
-// 	accountId: 1,
-// 	categoryId: 1
+// 	body: 'Event Horizon Telescope?',
 // })
 // 	.then(({ questions }) => console.log(questions))
 // 	.catch(err => console.log(err))
