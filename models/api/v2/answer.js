@@ -9,7 +9,7 @@ Object.defineProperties(ANSWER_DEFAULTS, {
 	accountId: { get: () => undefined }
 })
 
-class Answer {
+module.exports = class Answer {
 	constructor({ answerId, body, questionId, accountId } = {}) {
 		this.answerId = answerId || ANSWER_DEFAULTS.answerId
 		this.body = body || ANSWER_DEFAULTS.body

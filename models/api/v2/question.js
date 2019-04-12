@@ -9,7 +9,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-module.exports = class Question {
+class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -28,6 +28,25 @@ module.exports = class Question {
 					if (err) return reject(err)
 					// console.log(res.rows)
 					resolve()
+				}
+			)
+		})
+	}
+
+	//get top 5 similar questions
+	static getSimilarQuestions({ body, accountId, categoryId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				`SELECT id, body
+        FROM (SELECT id, body, token
+        FROM question, plainto_tsquery($1) AS q
+        WHERE (token @@ q)) AS t1
+        ORDER BY ts_rank_cd(t1.token, plainto_tsquery($1))
+        DESC LIMIT 5`,
+				[body],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ q: res.rows })
 				}
 			)
 		})
@@ -76,13 +95,14 @@ module.exports = class Question {
                          DEBUGGER CODES
 ***************************************************************/
 
-// Question.storeQuestion({
-// 	body: 'How does the future look like for NodeJS?',
-// 	accountId: 2,
-// 	categoryId: 3
-// })
-// 	.then(() => console.log('success'))
-// 	.catch(err => console.log(err))
+Question.getSimilarQuestions({
+	body:
+		'What did you think about the new pictures from Event Horizon Telescope?',
+	accountId: 1,
+	categoryId: 1
+})
+	.then(({ q }) => console.log(q))
+	.catch(err => console.log(err))
 
 // Question.getQuestionsByAccount({
 // 	accountId: 10

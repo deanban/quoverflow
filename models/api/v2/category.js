@@ -1,6 +1,6 @@
 const pool = require('../../../pgPool')
 
-module.exports = class Category {
+class Category {
 	constructor(id, name) {
 		this.id = id
 		this.name = name
@@ -61,9 +61,9 @@ module.exports = class Category {
                          DEBUGGER CODES
 ***************************************************************/
 
-// Category.storeCategory({ name: 'Technology' })
-// 	.then(() => console.log('success'))
-// 	.catch(err => console.error(err))
+Category.storeCategory({ name: 'Technology' })
+	.then(() => console.log('success'))
+	.catch(err => console.error(err))
 
 // Category.getCategoryById({ id: 2 })
 // 	.then(({ category }) => console.log(category))
