@@ -43,7 +43,8 @@ class Answer {
 			)
 		})
 	}
-	static getAllAnswersByUser({ accountId }) {
+
+	static getAnswersByAccount({ accountId }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
 				'SELECT id, body, "questionId" FROM answer WHERE "accountId"=$1',
@@ -75,7 +76,7 @@ class Answer {
 // 	.then(({ answers }) => console.log(answers))
 // 	.catch(err => console.error(err))
 
-// Answer.getAllAnswersByUser({
+// Answer.getAnswersByAccount({
 // 	accountId: 2
 // })
 // 	.then(({ answers }) => console.log(answers))
