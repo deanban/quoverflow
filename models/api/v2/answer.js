@@ -43,6 +43,18 @@ class Answer {
 			)
 		})
 	}
+	static getAllAnswersByUser({ accountId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				'SELECT id, body, "questionId" FROM answer WHERE "accountId"=$1',
+				[accountId],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ answers: res.rows })
+				}
+			)
+		})
+	}
 }
 
 /***************************************************************
@@ -59,6 +71,12 @@ class Answer {
 
 // Answer.getAllAnswersForQuestion({
 // 	questionId: 2
+// })
+// 	.then(({ answers }) => console.log(answers))
+// 	.catch(err => console.error(err))
+
+// Answer.getAllAnswersByUser({
+// 	accountId: 2
 // })
 // 	.then(({ answers }) => console.log(answers))
 // 	.catch(err => console.error(err))
