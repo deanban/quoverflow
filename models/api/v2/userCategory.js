@@ -1,0 +1,71 @@
+const pool = require('../../../pgPool')
+const Category = require('./category')
+
+class UserCategory {
+	static storeUserCategory({ accountId, categoryId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				`INSERT INTO userCategory("accountId", "categoryId")
+        VALUES($1,$2)`,
+				[accountId, categoryId],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve()
+				}
+			)
+		})
+	}
+
+	static getUserCategories({ accountId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				'SELECT "categoryId" AS id FROM userCategory WHERE "accountId"=$1',
+				[accountId],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ categories: res.rows })
+				}
+			)
+		})
+	}
+
+	static getUserCategoryNames({ accountId }) {
+		UserCategory.getUserCategories({ accountId })
+			.then(({ categories }) => {
+				return Promise.all(
+					// console.log(categories)
+					categories.map(category => {
+						return Category.getCategoryById({ id: category.id })
+					})
+				)
+			})
+			.then(({ category }) => {
+				console.log(category)
+			})
+	}
+}
+
+/***************************************************************
+                         DEBUGGER CODES
+***************************************************************/
+
+// UserCategory.storeUserCategory({
+// 	accountId: 10,
+// 	categoryId: 3
+// })
+// 	.then(() => console.log('success'))
+// 	.catch(err => console.log(err))
+
+// UserCategory.getUserCategories({
+// 	accountId: 10
+// })
+// 	.then(({ categories }) => console.log(categories))
+// 	.catch(err => console.log(err))
+
+console.log(
+	UserCategory.getUserCategories({ accountId: 10 })
+		.then(({ categories }) => {
+			categories.map(category => console.log(category.id))
+		})
+		.then(category => console.log(category))
+)

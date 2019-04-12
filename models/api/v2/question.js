@@ -26,7 +26,7 @@ module.exports = class Question {
 				[body, accountId, categoryId],
 				(err, res) => {
 					if (err) return reject(err)
-					console.log(res.rows)
+					// console.log(res.rows)
 					resolve()
 				}
 			)
@@ -77,9 +77,9 @@ module.exports = class Question {
 ***************************************************************/
 
 // Question.storeQuestion({
-// 	body: 'How did you like the new pictures of event horizon telescope?',
-// 	accountId: 10,
-// 	categoryId: 1
+// 	body: 'How does the future look like for NodeJS?',
+// 	accountId: 2,
+// 	categoryId: 3
 // })
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.log(err))

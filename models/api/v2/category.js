@@ -61,6 +61,10 @@ module.exports = class Category {
                          DEBUGGER CODES
 ***************************************************************/
 
+// Category.storeCategory({ name: 'Technology' })
+// 	.then(() => console.log('success'))
+// 	.catch(err => console.error(err))
+
 // Category.getCategoryById({ id: 2 })
 // 	.then(({ category }) => console.log(category))
 // 	.catch(err => console.log(err))

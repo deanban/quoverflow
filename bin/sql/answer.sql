@@ -1,6 +1,6 @@
 CREATE TABLE answer (
   id                            SERIAL PRIMARY KEY,
-  body                          CHARACTER(64),
+  body                          TEXT,
   "questionId"                  INTEGER,
   "accountId"                   INTEGER,
   FOREIGN KEY ("questionId")    REFERENCES question(id),

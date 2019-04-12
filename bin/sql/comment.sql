@@ -1,6 +1,6 @@
 CREATE TABLE comment (
   id                           SERIAL PRIMARY KEY,
-  body                         CHARACTER(64),
+  body                         TEXT,
   "accountId"                  INTEGER,
   "questionId"                 INTEGER,
   "answerId"                   INTEGER,

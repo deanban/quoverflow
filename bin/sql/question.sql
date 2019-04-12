@@ -1,6 +1,6 @@
 CREATE TABLE question (
   id                              SERIAL PRIMARY KEY,
-  body                            CHARACTER(64),
+  body                            TEXT,
   "accountId"                     INTEGER,
   "categoryId"                    INTEGER,
   FOREIGN KEY ("accountId")       REFERENCES account(id),
