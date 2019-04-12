@@ -54,7 +54,7 @@ Promise.all([
 		.then(() => console.log('Question Created'))
 		.catch(err => console.log(err)),
 	Question.storeQuestion({
-		body: 'Is the hayday of MacOS over?',
+		body: 'Is the hayday of Mac over?',
 		accountId: 3,
 		categoryId: 3
 	})
