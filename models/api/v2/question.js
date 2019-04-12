@@ -40,7 +40,7 @@ class Question {
 				`SELECT id, body
         FROM (SELECT id, body, token
         FROM question, plainto_tsquery($1) AS questions
-        WHERE (token @@ q)) AS t1
+        WHERE (token @@ questions)) AS t1
         ORDER BY ts_rank_cd(t1.token, plainto_tsquery($1))
         DESC LIMIT 5`,
 				[body],
