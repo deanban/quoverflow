@@ -10,7 +10,7 @@ Object.defineProperties(COMMENT_DEFAULTS, {
 	answerId: { get: () => null }
 })
 
-module.exports = class Comment {
+class Comment {
 	constructor({ commentId, body, accountId, questionId, answerId } = {}) {
 		this.commentId = commentId || COMMENT_DEFAULTS.commentId
 		this.body = body || COMMENT_DEFAULTS.body
@@ -47,47 +47,40 @@ module.exports = class Comment {
 		})
 	}
 
-	static getQuestionComments({ questionId }) {
-		return new Promise((resolve, reject) => {
-			pool.query(
-				'SELECT id, body, "questionId" FROM comment WHERE "questionId"=$1',
-				[questionId],
-				(err, res) => {
-					if (err) return reject(err)
-					resolve({ comments: res.rows })
-				}
+	//get all comments to either a question or an answer
+	static getComments(obj) {
+		if (obj.hasOwnProperty('questionId')) {
+			return new Promise((resolve, reject) => {
+				pool.query(
+					'SELECT id, body, "questionId" FROM comment WHERE "questionId"=$1',
+					[obj.questionId],
+					(err, res) => {
+						if (err) return reject(err)
+						resolve({ comments: res.rows })
+					}
+				)
+			})
+		} else if (obj.hasOwnProperty('answerId')) {
+			return new Promise((resolve, reject) => {
+				pool.query(
+					'SELECT id, body, "answerId" FROM comment WHERE "answerId"=$1',
+					[obj.answerId],
+					(err, res) => {
+						if (err) return reject(err)
+						resolve({ comments: res.rows })
+					}
+				)
+			})
+		} else {
+			const err = new Error(
+				`✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪
+        getComments(obj) function needs either a "questionId" or an "answerId".
+        Instead got "${Object.keys(obj)[0]}".
+        ✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪`
 			)
-		})
+			console.error(err)
+		}
 	}
-
-	static getAnswerComments({ answerId }) {
-		return new Promise((resolve, reject) => {
-			pool.query(
-				'SELECT id, body, "answerId" FROM comment WHERE "answerId"=$1',
-				[answerId],
-				(err, res) => {
-					if (err) return reject(err)
-					resolve({ comments: res.rows })
-				}
-			)
-		})
-	}
-
-	/*****************************************************************
-            NOPE!!  below is vulnerable to sql injection
-  *****************************************************************/
-	// static getComments({ id }) {
-	// 	return new Promise((resolve, reject) => {
-	// 		pool.query(
-	// 			`SELECT id, body, ${'id'} FROM comment WHERE ${'id'}=$1`,
-	// 			[id],
-	// 			(err, res) => {
-	// 				if (err) return reject(err)
-	// 				resolve({ comments: res.rows })
-	// 			}
-	// 		)
-	// 	})
-	// }
 }
 
 /***************************************************************
@@ -110,8 +103,8 @@ module.exports = class Comment {
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
-// Comment.getQuestionComments({
-// 	questionId: 2
+// Comment.getComments({
+// 	accountId: 2
 // })
 // 	.then(({ comments }) => console.log(comments))
 // 	.catch(err => console.error(err))
