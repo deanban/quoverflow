@@ -10,7 +10,7 @@ Object.defineProperties(COMMENT_DEFAULTS, {
 	answerId: { get: () => null }
 })
 
-class Comment {
+module.exports = class Comment {
 	constructor({ commentId, body, accountId, questionId, answerId } = {}) {
 		this.commentId = commentId || COMMENT_DEFAULTS.commentId
 		this.body = body || COMMENT_DEFAULTS.body

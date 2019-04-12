@@ -20,7 +20,6 @@ module.exports = class Account {
 					[firstName, lastName, email, hash],
 					(err, res) => {
 						if (err) return reject(err)
-						console.log(res.rows)
 						resolve()
 					}
 				)

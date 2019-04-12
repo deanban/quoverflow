@@ -5,3 +5,6 @@ begin
   return new;
 end
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE
+ON question FOR EACH ROW EXECUTE PROCEDURE documents_search_trigger();

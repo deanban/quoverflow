@@ -9,7 +9,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-class Question {
+module.exports = class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -95,14 +95,22 @@ class Question {
                          DEBUGGER CODES
 ***************************************************************/
 
-Question.getSimilarQuestions({
-	body:
-		'What did you think about the new pictures from Event Horizon Telescope?',
-	accountId: 1,
-	categoryId: 1
-})
-	.then(({ questions }) => console.log(questions))
-	.catch(err => console.log(err))
+// Question.storeQuestion({
+// 	body: 'What is the future like for NodeJS?',
+// 	accountId: 2,
+// 	categoryId: 2
+// })
+// 	.then(() => console.log('success'))
+// 	.catch(err => console.log(err))
+
+// Question.getSimilarQuestions({
+// 	body:
+// 		'What did you think about the new pictures from Event Horizon Telescope?',
+// 	accountId: 1,
+// 	categoryId: 1
+// })
+// 	.then(({ questions }) => console.log(questions))
+// 	.catch(err => console.log(err))
 
 // Question.getQuestionsByAccount({
 // 	accountId: 10

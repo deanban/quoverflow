@@ -14,12 +14,16 @@ echo "Following People: Running follow.sql"
 psql -U node_user quoverflow < ./bin/sql/follow.sql
 echo "Creating Questions: Running question.sql"
 psql -U node_user quoverflow < ./bin/sql/question.sql
+echo "Creating Search Trigger: Running searchAndRank.sql"
+psql -U node_user quoverflow < ./bin/sql/searchAndRank.sql
 echo "Answering questions: Running answer.sql"
 psql -U node_user quoverflow < ./bin/sql/answer.sql
 echo "Commenting: Running comment.sql"
 psql -U node_user quoverflow < ./bin/sql/comment.sql
 echo "Upvoting things: Running vote.sql"
 psql -U node_user quoverflow < ./bin/sql/vote.sql
+echo "Seeding QUOVERFLOW With Some Data"
+node ./bin/seed.js
 
 echo "QUOVERFLOW Database Created. Good Luck!"
 
