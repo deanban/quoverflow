@@ -39,14 +39,14 @@ class Question {
 			pool.query(
 				`SELECT id, body
         FROM (SELECT id, body, token
-        FROM question, plainto_tsquery($1) AS q
+        FROM question, plainto_tsquery($1) AS questions
         WHERE (token @@ q)) AS t1
         ORDER BY ts_rank_cd(t1.token, plainto_tsquery($1))
         DESC LIMIT 5`,
 				[body],
 				(err, res) => {
 					if (err) return reject(err)
-					resolve({ q: res.rows })
+					resolve({ questions: res.rows })
 				}
 			)
 		})
@@ -101,7 +101,7 @@ Question.getSimilarQuestions({
 	accountId: 1,
 	categoryId: 1
 })
-	.then(({ q }) => console.log(q))
+	.then(({ questions }) => console.log(questions))
 	.catch(err => console.log(err))
 
 // Question.getQuestionsByAccount({
