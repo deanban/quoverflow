@@ -132,13 +132,13 @@ module.exports = {
                          DEBUGGER CODES
 ***************************************************************/
 
-const sentence =
-	'What do you think about the new pictures from the Event Horizon Telescope?'
+// const sentence =
+// 	'What do you think about the new pictures from the Event Horizon Telescope?'
 
-let extraction_result = _extract(sentence, {
-	language: 'english',
-	remove_digits: true,
-	return_changed_case: false,
-	remove_duplicates: false
-})
-console.log(extraction_result.join(' '))
+// let extraction_result = _extract(sentence, {
+// 	language: 'english',
+// 	remove_digits: true,
+// 	return_changed_case: false,
+// 	remove_duplicates: false
+// })
+// console.log(extraction_result.join(' '))
