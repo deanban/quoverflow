@@ -10,7 +10,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-class Question {
+module.exports = class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -40,7 +40,7 @@ class Question {
 	//TODO: will add NLP to extract important words from body
 	//before running it through the query.
 	static getSimilarQuestions({ body }) {
-		let keywords = keyword_extractor
+		const keywords = keyword_extractor
 			.extract(body, {
 				language: 'english',
 				remove_digits: true,
@@ -48,6 +48,7 @@ class Question {
 				remove_duplicates: false
 			})
 			.join(' ')
+			.toString()
 		return new Promise((resolve, reject) => {
 			pool.query(
 				`SELECT id, body
@@ -116,11 +117,11 @@ class Question {
 // 	.then(({ questions }) => console.log(questions))
 // 	.catch(err => console.log(err))
 
-Question.getSimilarQuestions({
-	body: 'A good NLP library for node?'
-})
-	.then(({ questions }) => console.log(questions))
-	.catch(err => console.log(err))
+// Question.getSimilarQuestions({
+// 	body: 'A good NLP library node?'
+// })
+// 	.then(({ questions }) => console.log(questions))
+// 	.catch(err => console.log(err))
 
 // Question.getQuestionsByAccount({
 // 	accountId: 1

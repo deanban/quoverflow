@@ -4,7 +4,7 @@ const stopwords = require('./stopwords')
 
 _.str = require('underscore.string')
 
-function _extract(str, options) {
+function extract(str, options) {
 	if (_.isEmpty(str)) {
 		return []
 	}
@@ -17,11 +17,11 @@ function _extract(str, options) {
 	const return_changed_case = options.return_changed_case
 	const return_chained_words = options.return_chained_words
 	const remove_digits = options.remove_digits
-	const _language = options.language || 'english'
-	const _remove_duplicates = options.remove_duplicates || false
+	const language = options.language || 'english'
+	const remove_duplicates = options.remove_duplicates || false
 	const return_max_ngrams = options.return_max_ngrams
 
-	if (supported_languages.indexOf(_language) < 0) {
+	if (supported_languages.indexOf(language) < 0) {
 		throw new Error(
 			'Language must be one of [' + supported_languages.join(',') + ']'
 		)
@@ -37,10 +37,10 @@ function _extract(str, options) {
 		let low_words = []
 		//  change the case of all the words
 		for (let x = 0; x < words.length; x++) {
+			//  remove periods, question marks, exclamation points, commas, and semi-colons
 			let w = words[x].match(/https?:\/\/.*[\r\n]*/g)
 				? words[x]
 				: words[x].replace(/\.|,|;|!|\?|\(|\)|:|"|^'|'$|“|”|‘|’/g, '')
-			//  remove periods, question marks, exclamation points, commas, and semi-colons
 			//  if this is a short result, make sure it's not a single character or something 'odd'
 			if (w.length === 1) {
 				w = w.replace(/-|_|@|&|#/g, '')
@@ -56,17 +56,17 @@ function _extract(str, options) {
 			}
 		}
 		let results = []
-		let _stopwords = options.stopwords || _getStopwords({ language: _language })
-		let _last_result_word_index = 0
-		let _start_result_word_index = 0
-		let _unbroken_word_chain = false
+		let stopwords = options.stopwords || _getStopwords({ language: language })
+		let last_result_word_index = 0
+		let start_result_word_index = 0
+		let unbroken_word_chain = false
 		for (let y = 0; y < low_words.length; y++) {
-			if (_stopwords.indexOf(low_words[y]) < 0) {
-				if (_last_result_word_index !== y - 1) {
-					_start_result_word_index = y
-					_unbroken_word_chain = false
+			if (stopwords.indexOf(low_words[y]) < 0) {
+				if (last_result_word_index !== y - 1) {
+					start_result_word_index = y
+					unbroken_word_chain = false
 				} else {
-					_unbroken_word_chain = true
+					unbroken_word_chain = true
 				}
 				let result_word =
 					return_changed_case &&
@@ -76,16 +76,16 @@ function _extract(str, options) {
 
 				if (
 					return_max_ngrams &&
-					_unbroken_word_chain &&
+					unbroken_word_chain &&
 					!return_chained_words &&
-					return_max_ngrams > y - _start_result_word_index &&
-					_last_result_word_index === y - 1
+					return_max_ngrams > y - start_result_word_index &&
+					last_result_word_index === y - 1
 				) {
 					let change_pos = results.length - 1 < 0 ? 0 : results.length - 1
 					results[change_pos] = results[change_pos]
 						? results[change_pos] + ' ' + result_word
 						: result_word
-				} else if (return_chained_words && _last_result_word_index === y - 1) {
+				} else if (return_chained_words && last_result_word_index === y - 1) {
 					let change_pos = results.length - 1 < 0 ? 0 : results.length - 1
 					results[change_pos] = results[change_pos]
 						? results[change_pos] + ' ' + result_word
@@ -94,13 +94,13 @@ function _extract(str, options) {
 					results.push(result_word)
 				}
 
-				_last_result_word_index = y
+				last_result_word_index = y
 			} else {
-				_unbroken_word_chain = false
+				unbroken_word_chain = false
 			}
 		}
 
-		if (_remove_duplicates) {
+		if (remove_duplicates) {
 			results = _.uniq(results, function(item) {
 				return item
 			})
@@ -113,18 +113,18 @@ function _extract(str, options) {
 function _getStopwords(options) {
 	options = options || {}
 
-	let _language = options.language || 'english'
-	if (supported_languages.indexOf(_language) < 0) {
+	let language = options.language || 'english'
+	if (supported_languages.indexOf(language) < 0) {
 		throw new Error(
 			'Language must be one of [' + supported_languages.join(',') + ']'
 		)
 	}
 
-	return stopwords[_language]
+	return stopwords[language]
 }
 
 module.exports = {
-	extract: _extract,
+	extract: extract,
 	getStopwords: _getStopwords
 }
 
@@ -135,10 +135,10 @@ module.exports = {
 // const sentence =
 // 	'What do you think about the new pictures from the Event Horizon Telescope?'
 
-// let extraction_result = _extract(sentence, {
+// let extraction_result = extract(sentence, {
 // 	language: 'english',
 // 	remove_digits: true,
 // 	return_changed_case: false,
 // 	remove_duplicates: false
 // })
-// console.log(extraction_result.join(' '))
+// console.log(extraction_result.join(' ').toString())
