@@ -11,7 +11,7 @@ Promise.all([
 		email: 'd@d.com',
 		password: '123456'
 	})
-		.then(() => console.log('Account Dean Created'))
+		.then(() => console.log('Account for Dean Created'))
 		.catch(err => console.log(err)),
 	Account.storeAccount({
 		firstName: 'Mou',
@@ -19,7 +19,7 @@ Promise.all([
 		email: 'm@r.com',
 		password: '123456'
 	})
-		.then(() => console.log('Account Mou Created'))
+		.then(() => console.log('Account for Mou Created'))
 		.catch(err => console.log(err)),
 	Account.storeAccount({
 		firstName: 'Consuela',
@@ -27,7 +27,15 @@ Promise.all([
 		email: 'c@b.com',
 		password: '123456'
 	})
-		.then(() => console.log('Account Consuela Banana-hamock Created'))
+		.then(() => console.log('Account for Consuela Banana-hamock Created'))
+		.catch(err => console.log(err)),
+	Account.storeAccount({
+		firstName: 'Dick',
+		lastName: 'Van Dyke',
+		email: 'd@v.com',
+		password: '123456'
+	})
+		.then(() => console.log('Account for Dick Van Dyke Created'))
 		.catch(err => console.log(err)),
 	Category.storeCategory({ name: 'Science' })
 		.then(() => console.log('Category Science Created'))

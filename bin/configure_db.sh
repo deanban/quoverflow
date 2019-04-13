@@ -14,8 +14,8 @@ echo "Following People: Running follow.sql"
 psql -U node_user quoverflow < ./bin/sql/follow.sql
 echo "Creating Questions: Running question.sql"
 psql -U node_user quoverflow < ./bin/sql/question.sql
-echo "Creating Search Trigger: Running searchAndRank.sql"
-psql -U node_user quoverflow < ./bin/sql/searchAndRank.sql
+echo "Creating Search Trigger and Tokenizing: Running tokenizeQBody.sql"
+psql -U node_user quoverflow < ./bin/sql/tokenizeQBody.sql
 echo "Answering questions: Running answer.sql"
 psql -U node_user quoverflow < ./bin/sql/answer.sql
 echo "Commenting: Running comment.sql"

@@ -13,8 +13,15 @@ const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 })
 
-if (ENV_VARS.error) {
-	throw ENV_VARS.error
+pool.on('error', function(err, client) {
+	console.error('idle client error', err.message, err.stack)
+})
+
+module.exports.query = function(text, values, callback) {
+	console.log('query:', text, values)
+	return pool.query(text, values, callback)
 }
 
-module.exports = pool
+module.exports.connect = function(callback) {
+	return pool.connect(callback)
+}

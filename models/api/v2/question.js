@@ -1,4 +1,5 @@
 const pool = require('../../../pgPool')
+const keyword_extractor = require('../../../keyword_extraction/extraction')
 
 const QUESTION_DEFAULTS = {}
 
@@ -39,6 +40,14 @@ class Question {
 	//TODO: will add NLP to extract important words from body
 	//before running it through the query.
 	static getSimilarQuestions({ body }) {
+		let keywords = keyword_extractor
+			.extract(body, {
+				language: 'english',
+				remove_digits: true,
+				return_changed_case: false,
+				remove_duplicates: false
+			})
+			.join(' ')
 		return new Promise((resolve, reject) => {
 			pool.query(
 				`SELECT id, body
@@ -47,7 +56,7 @@ class Question {
         WHERE (token @@ questions)) AS tokens
         ORDER BY ts_rank_cd(tokens.token, plainto_tsquery($1))
         DESC LIMIT 5`,
-				[body],
+				[keywords],
 				(err, res) => {
 					if (err) return reject(err)
 					resolve({ questions: res.rows })
@@ -100,21 +109,21 @@ class Question {
 ***************************************************************/
 
 // Question.storeQuestion({
-// 	body: 'What is the future like for NodeJS?',
+// 	body: 'What is a good NLP library for Node?',
 // 	accountId: 2,
 // 	categoryId: 2
-// })
-// 	.then(() => console.log('success'))
-// 	.catch(err => console.log(err))
-
-// Question.getSimilarQuestions({
-// 	body: 'Event Horizon Telescope?',
 // })
 // 	.then(({ questions }) => console.log(questions))
 // 	.catch(err => console.log(err))
 
+Question.getSimilarQuestions({
+	body: 'A good NLP library for node?'
+})
+	.then(({ questions }) => console.log(questions))
+	.catch(err => console.log(err))
+
 // Question.getQuestionsByAccount({
-// 	accountId: 10
+// 	accountId: 1
 // })
 // 	.then(({ questions }) => console.log(questions))
 // 	.catch(err => console.log(err))
