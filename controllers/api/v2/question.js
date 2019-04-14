@@ -6,6 +6,8 @@ const router = express.Router()
 const validateBody = require('../../../validations/validateBody')
 const Question = require('../../../models/api/v2/question')
 
+//POST questions
+//PROTECTED
 router.post(
 	'/new',
 	passport.authenticate('jwt', { session: false }),
@@ -33,6 +35,7 @@ router.post(
 	}
 )
 
+//GET all questions
 router.get('/all', (req, res, next) => {
 	Question.getAllQuestions()
 		.then(({ questions }) => {
@@ -46,12 +49,14 @@ router.get('/all', (req, res, next) => {
 		.catch(err => next(err))
 })
 
+//GET profile or current user Questions
+//PROTECTED
 router.get(
 	'/current-user',
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
 		const { id } = req.user
-		console.log('req.user.id: ', id)
+		// console.log('req.user.id: ', id)
 		Question.getQuestionsByAccount({ accountId: id })
 			.then(({ questions }) => {
 				if (questions && questions.length > 0) {
@@ -64,5 +69,37 @@ router.get(
 			.catch(err => next(err))
 	}
 )
+
+//GET any users' questions.
+router.get('/user', (req, res, next) => {
+	const { accountId } = req.body
+
+	Question.getQuestionsByAccount({ accountId })
+		.then(({ questions }) => {
+			if (questions && questions.length > 0) {
+				res.json({
+					message: `Questions of accountId: ${accountId}`,
+					questions: questions
+				})
+			}
+		})
+		.catch(err => next(err))
+})
+
+//GET questions by category
+router.get('/category', (req, res, next) => {
+	const { categoryId } = req.body
+
+	Question.getQuestionsByCategory({ categoryId })
+		.then(({ questions }) => {
+			if (questions && questions.length > 0) {
+				res.json({
+					message: `Questions of categoryId: ${categoryId}`,
+					questions: questions
+				})
+			}
+		})
+		.catch(err => next(err))
+})
 
 module.exports = router
