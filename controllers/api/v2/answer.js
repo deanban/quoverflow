@@ -81,7 +81,7 @@ router.get(
 					})
 				} else {
 					res.json({
-						type: 'NO_ANSWERS_POSTED',
+						type: 'NO_ANSWERS',
 						message: 'You have not answered any questions yet.'
 					})
 				}
@@ -89,5 +89,26 @@ router.get(
 			.catch(err => next(err))
 	}
 )
+
+//GET all answers of an user
+router.get('/user', (req, res, next) => {
+	const { accountId } = req.body
+	Answer.getAnswersByAccount({ accountId })
+		.then(({ answers }) => {
+			if (answers && answers.length > 0) {
+				res.json({
+					type: 'FOUND',
+					message: `All answers of accountId: ${accountId}`,
+					answers: answers
+				})
+			} else {
+				res.json({
+					type: 'NO_ANSWERS',
+					message: 'This user have not answered any questions yet.'
+				})
+			}
+		})
+		.catch(err => next(err))
+})
 
 module.exports = router
