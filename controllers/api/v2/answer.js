@@ -12,25 +12,39 @@ router.post(
 	'/new',
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
-		const { errors, isValid } = validateBody(req.body)
-		const { body, questionId, accountId } = req.body
+		const { id } = req.user
+		const { body, questionId } = req.body
 
-		if (!isValid) return res.status(400).json(errors)
+		Answer.getUserAnswerToQuestion({ accountId: id, questionId }).then(
+			({ answers }) => {
+				if (answers && answers.length > 0) {
+					res.json({
+						type: 'FOUND',
+						message:
+							'You have already answered this question. You can edit with the edit button under your answer.'
+					})
+				} else {
+					const { errors, isValid } = validateBody(req.body)
+					if (!isValid) return res.status(400).json(errors)
 
-		Answer.storeAnswer({ body, questionId, accountId })
-			.then(() =>
-				res.json({
-					type: 'SUCCESS',
-					message: 'Answer Stored!'
-				})
-			)
-			.catch(err => next(err))
+					Answer.storeAnswer({ body, questionId, accountId: id })
+						.then(() =>
+							res.json({
+								type: 'SUCCESS',
+								message: 'Answer Stored!'
+							})
+						)
+						.catch(err => next(err))
+				}
+			}
+		)
 	}
 )
 
 //GET top 5 answers for a question
-router.get('/answer', (req, res, next) => {
+router.get('/question', (req, res, next) => {
 	const { questionId } = req.body
+
 	Answer.getAllAnswersForQuestion({ questionId })
 		.then(({ answers }) => {
 			if (answers && answers.length > 0) {
@@ -55,13 +69,14 @@ router.get(
 	'/current-user',
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
-		const { accountId } = req.body
-		Answer.getAnswersByAccount({ accountId })
+		// console.log(req.user)
+		const { id } = req.user
+		Answer.getAnswersByAccount({ accountId: id })
 			.then(({ answers }) => {
 				if (answers && answers.length > 0) {
 					res.json({
 						type: 'FOUND',
-						message: `All answers of accountId: ${accountId}`,
+						message: `All answers of accountId: ${id}`,
 						answers: answers
 					})
 				} else {
@@ -74,3 +89,5 @@ router.get(
 			.catch(err => next(err))
 	}
 )
+
+module.exports = router

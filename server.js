@@ -13,6 +13,7 @@ const answers = require('./controllers/api/v1/answers')
 
 const accounts = require('./controllers/api/v2/account')
 const qs = require('./controllers/api/v2/question')
+const ans = require('./controllers/api/v2/answer')
 
 //passport config
 require('./config/passport')(passport)
@@ -53,7 +54,8 @@ app.use('/api/answers', answers)
 
 //new routes with postgres
 app.use('/api/accounts', accounts)
-app.use('/api/questions', qs)
+app.use('/api/question', qs)
+app.use('/api/answer', ans)
 /*********************SET UPS*************************/
 
 /********************DB config*********************/

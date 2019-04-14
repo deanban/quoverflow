@@ -56,6 +56,19 @@ module.exports = class Answer {
 			)
 		})
 	}
+
+	static getUserAnswerToQuestion({ accountId, questionId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				'SELECT id, body, "questionId" FROM answer WHERE "accountId"=$1 AND "questionId"=$2',
+				[accountId, questionId],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ answers: res.rows })
+				}
+			)
+		})
+	}
 }
 
 /***************************************************************
@@ -71,13 +84,19 @@ module.exports = class Answer {
 // 	.catch(err => console.error(err))
 
 // Answer.getAllAnswersForQuestion({
-// 	questionId: 2
+// 	questionId: 3
 // })
 // 	.then(({ answers }) => console.log(answers))
 // 	.catch(err => console.error(err))
 
 // Answer.getAnswersByAccount({
 // 	accountId: 2
+// })
+// 	.then(({ answers }) => console.log(answers))
+// 	.catch(err => console.error(err))
+// Answer.getUserAnswerToQuestion({
+// 	accountId: 1,
+// 	questionId: 3
 // })
 // 	.then(({ answers }) => console.log(answers))
 // 	.catch(err => console.error(err))
