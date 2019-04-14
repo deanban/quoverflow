@@ -21,13 +21,19 @@ router.post(
 			.then(({ questions }) => {
 				if (questions && questions.length > 0) {
 					res.json({
+						type: 'FOUND_SIMILAR',
 						message:
-							'Here are some similar questions you might want to check out before posting.',
+							'Here are some similar questions you might want to check out before posting your question.',
 						similarQuestions: questions
 					})
 				} else {
 					Question.storeQuestion({ body, accountId, categoryId })
-						.then(() => res.json({ success: `Question- "${body}" Created.` }))
+						.then(() =>
+							res.json({
+								type: 'SUCCESS',
+								message: `Question- "${body}" Created.`
+							})
+						)
 						.catch(err => next(err))
 				}
 			})
@@ -41,8 +47,15 @@ router.get('/all', (req, res, next) => {
 		.then(({ questions }) => {
 			if (questions && questions.length > 0) {
 				res.json({
+					type: 'FOUND',
 					message: 'All questions',
 					questions: questions
+				})
+			} else {
+				res.json({
+					type: 'NO_QUESTIONS',
+					message:
+						'No question has been asked yet. Be the first to ask a meaningful question.'
 				})
 			}
 		})
@@ -61,7 +74,15 @@ router.get(
 			.then(({ questions }) => {
 				if (questions && questions.length > 0) {
 					res.json({
+						type: 'FOUND',
 						message: `Questions of accountId: ${id}`,
+						questions: questions
+					})
+				} else {
+					res.json({
+						type: 'NO_QUESTIONS',
+						message:
+							'You have not asked any question yet. What are you waiting for?',
 						questions: questions
 					})
 				}
@@ -78,8 +99,14 @@ router.get('/user', (req, res, next) => {
 		.then(({ questions }) => {
 			if (questions && questions.length > 0) {
 				res.json({
+					type: 'FOUND',
 					message: `Questions of accountId: ${accountId}`,
 					questions: questions
+				})
+			} else {
+				res.json({
+					type: 'NO_QUESTIONS',
+					message: 'This user has not asked any questions yet.'
 				})
 			}
 		})
@@ -94,8 +121,15 @@ router.get('/category', (req, res, next) => {
 		.then(({ questions }) => {
 			if (questions && questions.length > 0) {
 				res.json({
+					type: 'FOUND',
 					message: `Questions of categoryId: ${categoryId}`,
 					questions: questions
+				})
+			} else {
+				res.json({
+					type: 'NO_QUESTIONS',
+					message:
+						'There are no questions asked on this category. Be the first.'
 				})
 			}
 		})

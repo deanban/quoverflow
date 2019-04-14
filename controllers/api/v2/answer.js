@@ -21,7 +21,7 @@ router.post(
 					res.json({
 						type: 'FOUND',
 						message:
-							'You have already answered this question. You can edit with the edit button under your answer.'
+							'You have already answered this question. You can edit with the Edit button under your answer.'
 					})
 				} else {
 					const { errors, isValid } = validateBody(req.body)
