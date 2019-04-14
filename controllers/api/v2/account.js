@@ -46,13 +46,18 @@ router.post('/login', (req, res, next) => {
 						firstName: account.firstName,
 						email: account.email
 					}
-					jwt.sign(jwtPayload, secretKey, { expiresIn: '1h' }, (err, token) => {
-						if (err) throw err
-						return res.json({
-							success: true,
-							token: 'Bearer ' + token
-						})
-					})
+					jwt.sign(
+						jwtPayload,
+						secretKey,
+						{ expiresIn: '24h' },
+						(err, token) => {
+							if (err) throw err
+							return res.json({
+								success: true,
+								token: 'Bearer ' + token
+							})
+						}
+					)
 				} else {
 					errors.password = 'Incorrect Password'
 					return res.status(409).json(errors)
