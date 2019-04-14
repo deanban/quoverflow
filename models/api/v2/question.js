@@ -97,10 +97,13 @@ module.exports = class Question {
 	//get all questions
 	static getAllQuestions() {
 		return new Promise((resolve, reject) => {
-			pool.query('SELECT * FROM question', (err, res) => {
-				if (err) return reject(err)
-				resolve({ questions: res.rows })
-			})
+			pool.query(
+				'SELECT id, body, "accountId", "categoryId" FROM question',
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ questions: res.rows })
+				}
+			)
 		})
 	}
 }

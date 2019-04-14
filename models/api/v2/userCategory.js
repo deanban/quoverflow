@@ -28,21 +28,6 @@ class UserCategory {
 			)
 		})
 	}
-
-	static getUserCategoryNames({ accountId }) {
-		UserCategory.getUserCategories({ accountId })
-			.then(({ categories }) => {
-				return Promise.all(
-					// console.log(categories)
-					categories.map(category => {
-						return Category.getCategoryById({ id: category.id })
-					})
-				)
-			})
-			.then(({ category }) => {
-				console.log(category)
-			})
-	}
 }
 
 /***************************************************************
