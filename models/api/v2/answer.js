@@ -34,7 +34,7 @@ module.exports = class Answer {
 	static getAllAnswersForQuestion({ questionId }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
-				'SELECT id, body, "accountId" FROM answer WHERE "questionId"=$1',
+				'SELECT id, body, "accountId" FROM answer WHERE "questionId"=$1 LIMIT 5',
 				[questionId],
 				(err, res) => {
 					if (err) return reject(err)

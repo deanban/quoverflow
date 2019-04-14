@@ -33,4 +33,36 @@ router.post(
 	}
 )
 
+router.get('/all', (req, res, next) => {
+	Question.getAllQuestions()
+		.then(({ questions }) => {
+			if (questions && questions.length > 0) {
+				res.json({
+					message: 'All questions',
+					questions: questions
+				})
+			}
+		})
+		.catch(err => next(err))
+})
+
+router.get(
+	'/current-user',
+	passport.authenticate('jwt', { session: false }),
+	(req, res, next) => {
+		const { id } = req.user
+		console.log('req.user.id: ', id)
+		Question.getQuestionsByAccount({ accountId: id })
+			.then(({ questions }) => {
+				if (questions && questions.length > 0) {
+					res.json({
+						message: `Questions of accountId: ${id}`,
+						questions: questions
+					})
+				}
+			})
+			.catch(err => next(err))
+	}
+)
+
 module.exports = router
