@@ -19,11 +19,47 @@ module.exports = class Comment {
 		this.answerId = answerId || COMMENT_DEFAULTS.answerId
 	}
 
+	// static storeComment(obj) {
+	// 	if (obj.hasOwnProperty('questionId')) {
+	// 		return new Promise((resolve, reject) => {
+	// 			pool.query(
+	// 				`INSERT INTO comment(body, "questionId", "accountId")
+	//       VALUES($1,$2,$3)`,
+	// 				[obj.body, obj.questionId, obj.accountId],
+	// 				(err, res) => {
+	// 					if (err) return reject(err)
+	// 					resolve()
+	// 				}
+	// 			)
+	// 		})
+	// 	} else if (obj.hasOwnProperty('answerId')) {
+	// 		return new Promise((resolve, reject) => {
+	// 			pool.query(
+	// 				`INSERT INTO comment(body, "answerId", "accountId")
+	//       VALUES($1,$2,$3)`,
+	// 				[obj.body, obj.answerId, obj.accountId],
+	// 				(err, res) => {
+	// 					if (err) return reject(err)
+	// 					resolve()
+	// 				}
+	// 			)
+	// 		})
+	// 	} else {
+	// 		const err = new Error(
+	// 			`✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪
+	//       storeComment(obj) function needs either a "questionId" or an "answerId".
+	//       Instead got "${Object.keys(obj)}".
+	//       ✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪✪`
+	// 		)
+	// 		console.error(err)
+	// 	}
+	// }
+
 	static storeCommentToQuestion({ accountId, questionId, body }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
 				`INSERT INTO comment(body, "questionId", "accountId")
-        VALUES($1,$2,$3)`,
+	      VALUES($1,$2,$3)`,
 				[body, questionId, accountId],
 				(err, res) => {
 					if (err) return reject(err)
@@ -37,7 +73,7 @@ module.exports = class Comment {
 		return new Promise((resolve, reject) => {
 			pool.query(
 				`INSERT INTO comment(body, "answerId", "accountId")
-        VALUES($1,$2,$3)`,
+	      VALUES($1,$2,$3)`,
 				[body, answerId, accountId],
 				(err, res) => {
 					if (err) return reject(err)
@@ -49,7 +85,7 @@ module.exports = class Comment {
 
 	//get all comments to either a question or an answer
 	static getComments(obj) {
-		if (obj.hasOwnProperty('questionId')) {
+		if (obj.questionId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'SELECT id, body, "questionId" FROM comment WHERE "questionId"=$1',
@@ -60,7 +96,7 @@ module.exports = class Comment {
 					}
 				)
 			})
-		} else if (obj.hasOwnProperty('answerId')) {
+		} else if (obj.answerId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'SELECT id, body, "answerId" FROM comment WHERE "answerId"=$1',
