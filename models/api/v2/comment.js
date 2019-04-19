@@ -126,7 +126,7 @@ module.exports = class Comment {
 // Comment.storeCommentToQuestion({
 // 	accountId: 2,
 // 	questionId: 2,
-// 	body: 'I did. What about you?'
+// 	body: 'look! another apple fanboy!'
 // })
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))

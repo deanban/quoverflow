@@ -68,4 +68,32 @@ Promise.all([
 	})
 		.then(() => console.log('Question Created'))
 		.catch(err => console.log(err))
+	// Answer.storeAnswer({
+	// 	body: 'Future for node looks fine so far for 2019',
+	// 	questionId: 2,
+	// 	accountId: 1
+	// })
+	// 	.then(() => console.log('Answer Created'))
+	// 	.catch(err => console.log(err)),
+	// Answer.storeAnswer({
+	// 	body: 'Future for node looks pretty solid so far.',
+	// 	questionId: 2,
+	// 	accountId: 3
+	// })
+	// 	.then(() => console.log('Answer Created'))
+	// 	.catch(err => console.log(err)),
+	// Answer.storeAnswer({
+	// 	body: 'Not for the fans.',
+	// 	questionId: 3,
+	// 	accountId: 2
+	// })
+	// 	.then(() => console.log('Answer Created'))
+	// 	.catch(err => console.log(err)),
+	// Comment.storeCommentToQuestion({
+	// 	body: 'Look! another apple fanboy..',
+	// 	questionId: 3,
+	// 	accountId: 1
+	// })
+	// 	.then(() => console.log('Answer Created'))
+	// 	.catch(err => console.log(err))
 ])

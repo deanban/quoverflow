@@ -77,7 +77,7 @@ module.exports = class Answer {
 
 // Answer.storeAnswer({
 // 	body: 'Yes! It was the best damn pictures I\'ve ever seen!',
-// 	questionId: 2,
+// 	questionId: 3,
 // 	accountId: 3
 // })
 // 	.then(() => console.log('success'))
