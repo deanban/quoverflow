@@ -26,6 +26,7 @@ echo "Seeding QUOVERFLOW With Some Data"
 node ./bin/seed.js
 node ./bin/seed2.js
 node ./bin/seed3.js
+node ./bin/seed4.js
 
 echo "QUOVERFLOW Database Created. Good Luck!"
 

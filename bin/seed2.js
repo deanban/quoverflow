@@ -1,4 +1,5 @@
 const Answer = require('../models/api/v2/answer')
+const UserCategory = require('../models/api/v2/userCategory')
 
 const taskArr2 = [
 	Answer.storeAnswer({
@@ -15,6 +16,18 @@ const taskArr2 = [
 		body: 'Not for the fans.',
 		questionId: 2,
 		accountId: 2
+	}),
+	UserCategory.storeUserCategory({
+		accountId: 1,
+		categoryId: 1
+	}),
+	UserCategory.storeUserCategory({
+		accountId: 1,
+		categoryId: 2
+	}),
+	UserCategory.storeUserCategory({
+		accountId: 2,
+		categoryId: 1
 	})
 ]
 
