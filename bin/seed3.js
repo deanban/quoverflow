@@ -18,7 +18,7 @@ const taskArr3 = [
 	}),
 	Follow.followUser({
 		accountId: 1,
-		accountIdToFollow: 2
+		accountIdToFollow: 3
 	}),
 	Follow.followUser({
 		accountId: 2,

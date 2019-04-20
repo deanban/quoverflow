@@ -42,6 +42,20 @@ module.exports = class Follow {
 			)
 		})
 	}
+
+	static unFollow({ accountIdToUnfollow, accountId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				`DELETE FROM follow
+         WHERE "followingUserId"=$1 AND "followedUserId"=$2`,
+				[accountId, accountIdToUnfollow],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve(res.rows)
+				}
+			)
+		})
+	}
 }
 
 /***************************************************************
@@ -72,3 +86,8 @@ module.exports = class Follow {
 // 		)
 // 	)
 // 	.catch(err => console.error(err))
+
+// Follow.unFollow({
+// 	accountId: 1,
+// 	accountIdToUnfollow: 3
+// }).then(() => console.log('success'))
