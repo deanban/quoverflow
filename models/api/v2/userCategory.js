@@ -1,4 +1,5 @@
 const pool = require('../../../pgPool')
+const Category = require('./category')
 
 module.exports = class UserCategory {
 	static storeUserCategory({ accountId, categoryId }) {
@@ -41,9 +42,17 @@ module.exports = class UserCategory {
 // 	.catch(err => console.log(err))
 
 // UserCategory.getUserCategories({
-// 	accountId: 10
+// 	accountId: 1
 // })
-// 	.then(({ categories }) => console.log(categories))
+// 	.then(({ categories }) => {
+// 		categories.map(({ categoryId }) => {
+// 			Promise.all([
+// 				Category.getCategoryById({ id: categoryId }).then(({ category }) =>
+// 					console.log(category)
+// 				)
+// 			])
+// 		})
+// 	})
 // 	.catch(err => console.log(err))
 
 // console.log(

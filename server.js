@@ -15,6 +15,7 @@ const accounts = require('./controllers/api/v2/account')
 const qs = require('./controllers/api/v2/question')
 const ans = require('./controllers/api/v2/answer')
 const comments = require('./controllers/api/v2/comment')
+const userCategories = require('./controllers/api/v2/userCategory')
 
 //passport config
 require('./config/passport')(passport)
@@ -58,6 +59,7 @@ app.use('/api/accounts', accounts)
 app.use('/api/question', qs)
 app.use('/api/answer', ans)
 app.use('/api/comment', comments)
+app.use('/api/categories', userCategories)
 /*********************SET UPS*************************/
 
 /********************DB config*********************/

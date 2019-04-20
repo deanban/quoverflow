@@ -61,7 +61,7 @@ module.exports = class Category {
                          DEBUGGER CODES
 ***************************************************************/
 
-// Category.storeCategory({ name: 'Technology' })
+// Category.storeCategory({ name: 'Sports' })
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
