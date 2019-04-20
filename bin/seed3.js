@@ -1,4 +1,5 @@
 const Comment = require('../models/api/v2/comment')
+const Follow = require('../models/api/v2/follow')
 
 const taskArr3 = [
 	Comment.storeCommentToQuestion({
@@ -10,6 +11,30 @@ const taskArr3 = [
 		body: 'Look! another apple fanboy..',
 		answerId: 3,
 		accountId: 1
+	}),
+	Follow.followUser({
+		accountId: 1,
+		accountIdToFollow: 2
+	}),
+	Follow.followUser({
+		accountId: 1,
+		accountIdToFollow: 2
+	}),
+	Follow.followUser({
+		accountId: 2,
+		accountIdToFollow: 1
+	}),
+	Follow.followUser({
+		accountId: 2,
+		accountIdToFollow: 3
+	}),
+	Follow.followUser({
+		accountId: 3,
+		accountIdToFollow: 2
+	}),
+	Follow.followUser({
+		accountId: 3,
+		accountIdToFollow: 1
 	})
 ]
 
