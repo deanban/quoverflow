@@ -33,34 +33,43 @@ module.exports = class Vote {
 		this.commentId = commentId || VOTE_DEFAULTS.commentId
 	}
 
-	static upVote(obj) {
-		if (obj.questionId) {
+	static upVote(param) {
+		if (!param)
+			throw new Error(
+				'Must include an object containing either questionId or answerId, or commentId.'
+			)
+		if (!param.questionId && !param.answerId && !param.commentId)
+			throw new Error(
+				'Need an Object containing either questionId or answerId, or commentId.'
+			)
+
+		if (param.questionId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "questionId", "questionVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.questionId, 1],
+					[param.accountId, param.questionId, 1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
 					}
 				)
 			})
-		} else if (obj.answerId) {
+		} else if (param.answerId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "answerId", "answerVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.answerId, 1],
+					[param.accountId, param.answerId, 1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
 					}
 				)
 			})
-		} else if (obj.commentId) {
+		} else if (param.commentId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "commentId", "commentVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.commentId, 1],
+					[param.accountId, param.commentId, 1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
@@ -69,34 +78,43 @@ module.exports = class Vote {
 			})
 		}
 	}
-	static downVote(obj) {
-		if (obj.questionId) {
+	static downVote(param) {
+		if (!param)
+			throw new Error(
+				'Must include an object containing either questionId or answerId, or commentId.'
+			)
+		if (!param.questionId && !param.answerId && !param.commentId)
+			throw new Error(
+				'Need an Object containing either questionId or answerId, or commentId.'
+			)
+
+		if (param.questionId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "questionId", "questionVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.questionId, -1],
+					[param.accountId, param.questionId, -1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
 					}
 				)
 			})
-		} else if (obj.answerId) {
+		} else if (param.answerId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "answerId", "answerVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.answerId, -1],
+					[param.accountId, param.answerId, -1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
 					}
 				)
 			})
-		} else if (obj.commentId) {
+		} else if (param.commentId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'INSERT INTO vote("accountId", "commentId", "commentVoteCount") VALUES($1,$2,$3)',
-					[obj.accountId, obj.commentId, -1],
+					[param.accountId, param.commentId, -1],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve()
@@ -106,34 +124,89 @@ module.exports = class Vote {
 		}
 	}
 
-	static countVotes(obj) {
-		if (obj.questionId) {
+	static countVotes(param) {
+		if (!param)
+			throw new Error(
+				'Must include an object containing either questionId or answerId, or commentId.'
+			)
+		if (!param.questionId && !param.answerId && !param.commentId) {
+			throw new Error(
+				'Need an Object containing either questionId or answerId, or commentId.'
+			)
+		}
+		if (param.questionId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'SELECT SUM("questionVoteCount") AS total FROM vote WHERE "questionId"=$1',
-					[obj.questionId],
+					[param.questionId],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve(res.rows[0])
 					}
 				)
 			})
-		} else if (obj.answerId) {
+		} else if (param.answerId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					'SELECT SUM("answerVoteCount") AS total FROM vote WHERE "answerId"=$1',
-					[obj.answerId],
+					[param.answerId],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve(res.rows[0])
 					}
 				)
 			})
-		} else if (obj.commentId) {
+		} else if (param.commentId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
-					'SELECT SUM("answerVoteCount") AS total FROM vote WHERE "commentId"=$1',
-					[obj.commentId],
+					'SELECT SUM("commentVoteCount") AS total FROM vote WHERE "commentId"=$1',
+					[param.commentId],
+					(err, res) => {
+						if (err) return reject(err)
+						resolve(res.rows[0])
+					}
+				)
+			})
+		}
+	}
+
+	static checkVote(param) {
+		if (!param)
+			throw new Error(
+				'Must include an object containing either questionId or answerId, or commentId.'
+			)
+		if (!param.accountId) {
+			throw new Error('Account ID required for checking vote.')
+		} else if (param.questionId) {
+			return new Promise((resolve, reject) => {
+				pool.query(
+					`SELECT "questionVoteCount" AS votes FROM vote
+          WHERE "accountId"=$1 AND "questionId"=$2`,
+					[param.accountId, param.questionId],
+					(err, res) => {
+						if (err) return reject(err)
+						resolve(res.rows[0])
+					}
+				)
+			})
+		} else if (param.answerId) {
+			return new Promise((resolve, reject) => {
+				pool.query(
+					`SELECT "answerVoteCount" AS votes FROM vote
+          WHERE "accountId"=$1 AND "answerId"=$2`,
+					[param.accountId, param.answerId],
+					(err, res) => {
+						if (err) return reject(err)
+						resolve(res.rows[0])
+					}
+				)
+			})
+		} else if (param.commentId) {
+			return new Promise((resolve, reject) => {
+				pool.query(
+					`SELECT "commentVoteCount" AS votes FROM vote
+          WHERE "accountId"=$1 AND "commentId"=$2`,
+					[param.accountId, param.commentId],
 					(err, res) => {
 						if (err) return reject(err)
 						resolve(res.rows[0])
@@ -160,4 +233,11 @@ module.exports = class Vote {
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
-// Vote.countVotes({ commentId: 2 }).then(({ total }) => console.log(total))
+// Vote.countVotes().then(({ total }) => console.log(total))
+
+// Vote.checkVote({
+// 	accountId: 2,
+// 	answerId: 3
+// })
+// 	.then(({ votes }) => console.log(votes))
+// 	.catch(err => console.error(err))
