@@ -51,7 +51,7 @@ module.exports = class Follow {
 				[accountId, accountIdToUnfollow],
 				(err, res) => {
 					if (err) return reject(err)
-					resolve(res.rows)
+					resolve()
 				}
 			)
 		})
