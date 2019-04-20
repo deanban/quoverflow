@@ -1,99 +1,64 @@
 const Account = require('../models/api/v2/account')
 const Category = require('../models/api/v2/category')
 const Question = require('../models/api/v2/question')
-const Answer = require('../models/api/v2/answer')
-const Comment = require('../models/api/v2/comment')
 
-Promise.all([
+const taskArr = [
 	Account.storeAccount({
 		firstName: 'Dean',
 		lastName: 'Banik',
 		email: 'd@d.com',
 		password: '123456'
-	})
-		.then(() => console.log('Account for Dean Created'))
-		.catch(err => console.log(err)),
+	}),
 	Account.storeAccount({
 		firstName: 'Mou',
 		lastName: 'Roy',
 		email: 'm@r.com',
 		password: '123456'
-	})
-		.then(() => console.log('Account for Mou Created'))
-		.catch(err => console.log(err)),
+	}),
 	Account.storeAccount({
 		firstName: 'Consuela',
 		lastName: 'Banana-hamock',
 		email: 'c@b.com',
 		password: '123456'
-	})
-		.then(() => console.log('Account for Consuela Banana-hamock Created'))
-		.catch(err => console.log(err)),
+	}),
 	Account.storeAccount({
 		firstName: 'Dick',
 		lastName: 'Van Dyke',
 		email: 'd@v.com',
 		password: '123456'
-	})
-		.then(() => console.log('Account for Dick Van Dyke Created'))
-		.catch(err => console.log(err)),
-	Category.storeCategory({ name: 'Science' })
-		.then(() => console.log('Category Science Created'))
-		.catch(err => console.error(err)),
-	Category.storeCategory({ name: 'Technology' })
-		.then(() => console.log('Category Technology Created'))
-		.catch(err => console.error(err)),
-	Category.storeCategory({ name: 'Computer' })
-		.then(() => console.log('Category Computer Created'))
-		.catch(err => console.error(err)),
+	}),
+	Category.storeCategory({ name: 'Science' }),
+	Category.storeCategory({ name: 'Technology' }),
+	Category.storeCategory({ name: 'Computer' }),
 	Question.storeQuestion({
 		body: 'What is the future like for NodeJS?',
 		accountId: 2,
 		categoryId: 2
-	})
-		.then(() => console.log('Question Created'))
-		.catch(err => console.log(err)),
+	}),
 	Question.storeQuestion({
 		body:
 			'What did you think about the new pictures from Event Horizon Telescope?',
 		accountId: 1,
 		categoryId: 1
-	})
-		.then(() => console.log('Question Created'))
-		.catch(err => console.log(err)),
+	}),
 	Question.storeQuestion({
 		body: 'Is the hayday of Mac over?',
 		accountId: 3,
 		categoryId: 3
 	})
-		.then(() => console.log('Question Created'))
-		.catch(err => console.log(err))
-	// Answer.storeAnswer({
-	// 	body: 'Future for node looks fine so far for 2019',
-	// 	questionId: 2,
-	// 	accountId: 1
-	// })
-	// 	.then(() => console.log('Answer Created'))
-	// 	.catch(err => console.log(err)),
-	// Answer.storeAnswer({
-	// 	body: 'Future for node looks pretty solid so far.',
-	// 	questionId: 2,
-	// 	accountId: 3
-	// })
-	// 	.then(() => console.log('Answer Created'))
-	// 	.catch(err => console.log(err)),
-	// Answer.storeAnswer({
-	// 	body: 'Not for the fans.',
-	// 	questionId: 3,
-	// 	accountId: 2
-	// })
-	// 	.then(() => console.log('Answer Created'))
-	// 	.catch(err => console.log(err)),
-	// Comment.storeCommentToQuestion({
-	// 	body: 'Look! another apple fanboy..',
-	// 	questionId: 3,
-	// 	accountId: 1
-	// })
-	// 	.then(() => console.log('Answer Created'))
-	// 	.catch(err => console.log(err))
-])
+]
+
+return taskArr
+	.reduce((promiseChain, currentTask) => {
+		return promiseChain
+			.then(chainResults =>
+				currentTask
+					.then(currentResult => [...chainResults, currentResult])
+					.catch(err => console.error(err))
+			)
+			.catch(err => console.error(err))
+	}, Promise.resolve([]))
+	.then(arrayOfResults => {
+		console.log(arrayOfResults)
+	})
+	.catch(err => console.error(err))

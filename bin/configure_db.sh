@@ -24,6 +24,8 @@ echo "Upvoting things: Running vote.sql"
 psql -U node_user quoverflow < ./bin/sql/vote.sql
 echo "Seeding QUOVERFLOW With Some Data"
 node ./bin/seed.js
+node ./bin/seed2.js
+node ./bin/seed3.js
 
 echo "QUOVERFLOW Database Created. Good Luck!"
 

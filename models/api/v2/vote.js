@@ -11,7 +11,7 @@ Object.defineProperties(VOTE_DEFAULTS, {
 	commentId: { get: () => undefined }
 })
 
-class Vote {
+module.exports = class Vote {
 	//destructure them out. if incoming values are undefined
 	//set them to default object
 	constructor({
