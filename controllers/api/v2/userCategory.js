@@ -43,7 +43,6 @@ router.get(
 						Category.getCategoryById({ id: categoryId })
 							.then(({ category }) => {
 								categoryArr.push(category)
-								return
 							})
 							.catch(err => next(err))
 					])
