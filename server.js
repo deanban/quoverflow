@@ -17,6 +17,7 @@ const ans = require('./controllers/api/v2/answer')
 const comments = require('./controllers/api/v2/comment')
 const userCategories = require('./controllers/api/v2/userCategory')
 const follow = require('./controllers/api/v2/follow')
+const votes = require('./controllers/api/v2/vote')
 
 //passport config
 require('./config/passport')(passport)
@@ -61,7 +62,8 @@ app.use('/api/question', qs)
 app.use('/api/answer', ans)
 app.use('/api/comment', comments)
 app.use('/api/categories', userCategories)
-app.use('/api/user/', follow)
+app.use('/api/user', follow)
+app.use('/api/votes', votes)
 /*********************SET UPS*************************/
 
 /********************DB config*********************/

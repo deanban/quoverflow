@@ -177,7 +177,8 @@ module.exports = class Vote {
 			)
 		if (!param.accountId) {
 			throw new Error('Account ID required for checking vote.')
-		} else if (param.questionId) {
+		}
+		if (param.questionId) {
 			return new Promise((resolve, reject) => {
 				pool.query(
 					`SELECT "questionVoteCount" AS votes FROM vote
@@ -225,19 +226,19 @@ module.exports = class Vote {
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
-// Vote.upVote({ commentId: 2, accountId: 1 })
+// Vote.upVote({ questionId: 2, accountId: 1 })
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
-// Vote.downVoteQuestion({ questionId: 1, accountId: 3 })
+// Vote.downVote({ questionId: 4, accountId: 1 })
 // 	.then(() => console.log('success'))
 // 	.catch(err => console.error(err))
 
-// Vote.countVotes().then(({ total }) => console.log(total))
+// Vote.countVotes({ questionId: 2 }).then(({ total }) => console.log(total))
 
 // Vote.checkVote({
-// 	accountId: 2,
-// 	answerId: 3
+// 	accountId: 1,
+// 	questionId: 1
 // })
-// 	.then(({ votes }) => console.log(votes))
+// 	.then(res => console.log(res === undefined))
 // 	.catch(err => console.error(err))

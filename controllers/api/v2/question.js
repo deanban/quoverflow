@@ -13,7 +13,8 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
 		const { errors, isValid } = validateBody(req.body)
-		const { body, accountId, categoryId } = req.body
+		const { body, categoryId } = req.body
+		const { id } = req.user
 
 		if (!isValid) return res.status(400).json(errors)
 
@@ -27,7 +28,7 @@ router.post(
 						similarQuestions: questions
 					})
 				} else {
-					Question.storeQuestion({ body, accountId, categoryId })
+					Question.storeQuestion({ body, accountId: id, categoryId })
 						.then(() =>
 							res.json({
 								type: 'SUCCESS',
