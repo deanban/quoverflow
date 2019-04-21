@@ -13,7 +13,7 @@ const validateLogin = require('../../../validations/login')
 
 router.post('/register', (req, res, next) => {
 	const { errors, isValid } = validateRegistration(req.body)
-	const { email } = req.body
+	const { email, firstName, lastName } = req.body
 
 	//if validations fail
 	if (!isValid) return res.status(400).json(errors)
@@ -24,7 +24,14 @@ router.post('/register', (req, res, next) => {
 				errors.email = 'User with that email address already exits!'
 				return res.status(400).json(errors)
 			} else {
-				return Account.storeAccount(req.body)
+				Account.storeAccount(req.body)
+					.then(() => {
+						res.json({
+							type: 'SUCCESS',
+							message: `Successfully Created User- ${firstName} ${lastName}`
+						})
+					})
+					.catch(err => next(err))
 			}
 		})
 		.catch(err => next(err))
