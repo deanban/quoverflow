@@ -13,6 +13,7 @@ const answers = require('./controllers/api/v1/answers')
 
 const accounts = require('./controllers/api/v2/account')
 const qs = require('./controllers/api/v2/question')
+const recommended = require('./controllers/api/v2/recommended')
 const ans = require('./controllers/api/v2/answer')
 const comments = require('./controllers/api/v2/comment')
 const userCategories = require('./controllers/api/v2/userCategory')
@@ -64,6 +65,7 @@ app.use('/api/comment', comments)
 app.use('/api/categories', userCategories)
 app.use('/api/user', follow)
 app.use('/api/votes', votes)
+app.use('/api/recommended', recommended)
 /*********************SET UPS*************************/
 
 /********************DB config*********************/

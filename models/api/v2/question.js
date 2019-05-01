@@ -70,7 +70,7 @@ module.exports = class Question {
 	static getQuestionsByCategory({ categoryId }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
-				'SELECT id, body, "accountId" FROM question WHERE "categoryId"=$1',
+				'SELECT id, body, "accountId", "categoryId" FROM question WHERE "categoryId"=$1',
 				[categoryId],
 				(err, res) => {
 					if (err) return reject(err)

@@ -42,7 +42,7 @@ module.exports = class UserCategory {
 // 	.catch(err => console.log(err))
 
 // UserCategory.getUserCategories({
-// 	accountId: 1
+// 	accountId: 3
 // })
 // 	.then(({ categories }) => {
 // 		categories.map(({ categoryId }) => {
