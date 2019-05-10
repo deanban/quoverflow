@@ -23,7 +23,7 @@ router.get(
 				} else {
 					//todo: recommended questions by upvotes/answered/commented
 					//questions categories
-					//further todo: recommended questions by upvotes/answered/commented by users followed/followers
+					//further todo: recommended questions by upvotes/answered/commented by users followed/followers --done
 
 					// for now all questions
 					Question.getAllQuestions().then(({ questions }) => {
