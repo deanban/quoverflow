@@ -10,7 +10,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-class Question {
+module.exports = class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -111,7 +111,7 @@ class Question {
 	static getRecommendedQsByCates({ accountId }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
-				`SELECT * FROM question INNER JOIN userCategory
+				`SELECT id, body, question."categoryId", question."accountId" FROM question INNER JOIN userCategory
          ON question."categoryId"=userCategory."categoryId"
          WHERE userCategory."accountId"=$1`,
 				[accountId],

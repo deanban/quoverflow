@@ -13,32 +13,38 @@ router.get(
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
 		const { id } = req.user
-		let questionsArr = []
+		Question.getRecommendedQsByCates({ accountId: id })
+			.then(({ questions }) => {
+				if (questions && questions.length > 0) {
+					res.json({
+						type: 'FOUND',
+						message: 'Here are some questions based on the users\' categories',
+						questions: questions
+					})
+				} else {
+					//todo: recommended questions by upvotes/answered/commented
+					//questions categories
+					//further todo: recommended questions by upvotes/answered/commented by users followed/followers
 
-		UserCategory.getUserCategories({ accountId: id })
-			.then(({ categories }) => {
-				// console.log(categories)
-				categories.map(({ categoryId }) => {
-					// console.log(categoryId)
-					Promise.all([Question.getQuestionsByCategory({ categoryId })])
-						.then(questions => {
-							questionsArr.push(questions)
-						})
-						.catch(err => next(err))
-				})
+					// for now all questions
+					Question.getAllQuestions().then(({ questions }) => {
+						if (questions && questions.length > 0) {
+							res.json({
+								type: 'FOUND',
+								message: 'All questions',
+								questions: questions
+							})
+						} else {
+							res.json({
+								type: 'NO_QUESTIONS',
+								message:
+									'No question has been asked yet. Be the first to ask a meaningful question.'
+							})
+						}
+					})
+				}
 			})
 			.catch(err => next(err))
-		console.log(questionsArr)
-
-		setTimeout(() => {
-			res.json({
-				type: 'FOUND',
-				message: `Recommended Questions for accountId: ${id}`,
-				questionsArr
-			})
-		}, 50)
-
-		//working but getting weird response back. Needs to be cleaned
 	}
 )
 
