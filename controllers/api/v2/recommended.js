@@ -45,7 +45,7 @@ router.get(
 			})
 			.then(() => {
 				//find users that this account follows
-				//find the categories of all the followed users
+				//find the categories liked by all the followed users
 				//find questions from those categories
 				//add all the questions together
 				//remove any duplicates
