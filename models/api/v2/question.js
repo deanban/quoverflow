@@ -94,6 +94,20 @@ module.exports = class Question {
 		})
 	}
 
+	//get questions by body
+	static getQuestionsByBody({ body }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				'SELECT id, body, "categoryId" FROM question WHERE body=$1',
+				[body],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ questions: res.rows })
+				}
+			)
+		})
+	}
+
 	//get all questions
 	static getAllQuestions() {
 		return new Promise((resolve, reject) => {

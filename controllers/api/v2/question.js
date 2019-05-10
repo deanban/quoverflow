@@ -18,26 +18,37 @@ router.post(
 
 		if (!isValid) return res.status(400).json(errors)
 
-		Question.getSimilarQuestions({ body })
+		Question.getQuestionsByBody({ body })
 			.then(({ questions }) => {
-				if (questions && questions.length > 0) {
+				if (questions.length > 0) {
 					res.json({
-						type: 'FOUND_SIMILAR',
-						message:
-							'Here are some similar questions you might want to check out before posting your question.',
-						similarQuestions: questions
+						type: 'FOUND_QUESTION/S',
+						message: 'Here is/are question/s with the exact same body.',
+						questions: questions
 					})
 				} else {
-					Question.storeQuestion({ body, accountId: id, categoryId })
-						.then(() =>
+					Question.getSimilarQuestions({ body }).then(({ questions }) => {
+						if (questions && questions.length > 0) {
 							res.json({
-								type: 'SUCCESS',
-								message: `Question- "${body}" Created.`
+								type: 'FOUND_SIMILAR',
+								message:
+									'Here are some similar questions you might want to check out before posting your question.',
+								similarQuestions: questions
 							})
-						)
-						.catch(err => next(err))
+						} else {
+							Question.storeQuestion({ body, accountId: id, categoryId })
+								.then(() =>
+									res.json({
+										type: 'SUCCESS',
+										message: `Question- "${body}" Created.`
+									})
+								)
+								.catch(err => next(err))
+						}
+					})
 				}
 			})
+
 			.catch(err => next(err))
 	}
 )
@@ -47,10 +58,16 @@ router.get('/all', (req, res, next) => {
 	Question.getAllQuestions()
 		.then(({ questions }) => {
 			if (questions && questions.length > 0) {
+				let dupsRemoved = Object.values(
+					questions.reduce(
+						(acc, curr) => ((acc[`${curr.body}`] = curr), acc),
+						{}
+					)
+				)
 				res.json({
 					type: 'FOUND',
 					message: 'All questions',
-					questions: questions
+					questions: dupsRemoved
 				})
 			} else {
 				res.json({

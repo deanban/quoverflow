@@ -69,7 +69,7 @@ router.get(
 											//remove duplicates
 											dupsRemoved = Object.values(
 												aggregateRecommendedQs.reduce(
-													(acc, curr) => ((acc[`${curr.id}`] = curr), acc),
+													(acc, curr) => ((acc[`${curr.body}`] = curr), acc),
 													{}
 												)
 											)
