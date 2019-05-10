@@ -40,7 +40,7 @@ router.get(
 									'No question has been asked yet. Be the first to ask a meaningful question.'
 							})
 						}
-					})
+					}).catch(err => next(err))
 				}
 			})
 			.then(() => {

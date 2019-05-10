@@ -22,7 +22,7 @@ router.post(
 			.then(({ questions }) => {
 				if (questions.length > 0) {
 					res.json({
-						type: 'FOUND_QUESTION/S',
+						type: 'FOUND_QUESTION_BODY',
 						message: 'Here is/are question/s with the exact same body.',
 						questions: questions
 					})
