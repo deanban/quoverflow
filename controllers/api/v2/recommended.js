@@ -44,6 +44,13 @@ router.get(
 				}
 			})
 			.then(() => {
+				//find users that this account follows
+				//find the categories of all the followed users
+				//find questions from those categories
+				//add all the questions together
+				//remove any duplicates
+				//return one final array
+
 				Follow.findFollowed({ accountId: id }).then(resp => {
 					resp.map(({ followed }) => {
 						Promise.all([
@@ -62,7 +69,7 @@ router.get(
 											//remove duplicates
 											dupsRemoved = Object.values(
 												aggregateRecommendedQs.reduce(
-													(a, c) => ((a[`${c.id}`] = c), a),
+													(acc, curr) => ((acc[`${curr.id}`] = curr), acc),
 													{}
 												)
 											)
@@ -73,6 +80,7 @@ router.get(
 					})
 				})
 			})
+			.catch(err => next(err))
 		setTimeout(() => {
 			res.json({
 				type: 'FOUND',
@@ -80,7 +88,7 @@ router.get(
 					'Here are some questions based on the users and his/hers followed users categories',
 				questions: dupsRemoved
 			})
-		}, 200)
+		}, 100)
 	}
 )
 
