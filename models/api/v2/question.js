@@ -10,7 +10,7 @@ Object.defineProperties(QUESTION_DEFAULTS, {
 	categoryId: { get: () => undefined }
 })
 
-module.exports = class Question {
+class Question {
 	constructor({ questionId, body, accountId, categoryId } = {}) {
 		this.questionId = questionId || QUESTION_DEFAULTS.questionId
 		this.body = body || QUESTION_DEFAULTS.body
@@ -106,6 +106,22 @@ module.exports = class Question {
 			)
 		})
 	}
+
+	//recommended questions for users based on their categories
+	static getRecommendedQsByCates({ accountId }) {
+		return new Promise((resolve, reject) => {
+			pool.query(
+				`SELECT * FROM question INNER JOIN userCategory
+         ON question."categoryId"=userCategory."categoryId"
+         WHERE userCategory."accountId"=$1`,
+				[accountId],
+				(err, res) => {
+					if (err) return reject(err)
+					resolve({ questions: res.rows })
+				}
+			)
+		})
+	}
 }
 
 /***************************************************************
@@ -135,3 +151,7 @@ module.exports = class Question {
 // Question.getAllQuestions()
 // 	.then(({ questions }) => console.log(questions))
 // 	.catch(err => console.log(err))
+
+// Question.getRecommendedQuestions({ accountId: 1 })
+// 	.then(({ questions }) => console.log(questions))
+// 	.catch(err => console.error(err))
