@@ -19,7 +19,7 @@ module.exports = class Follow {
 	static findFollowed({ accountId }) {
 		return new Promise((resolve, reject) => {
 			pool.query(
-				`SELECT "followedUserId" AS followed FROM follow
+				`SELECT "followedUserId" as followed FROM follow
         WHERE "followingUserId"=$1`,
 				[accountId],
 				(err, res) => {
@@ -67,17 +67,18 @@ module.exports = class Follow {
 // 	accountIdToFollow: 3
 // })
 
-// Follow.findFollowed({ accountId: 1 })
-// 	.then(res =>
-// 		res.map(({ followed }) =>
-// 			Promise.all([Account.getAccountById({ id: followed })])
-// 				.then(accounts => accounts.map(({ account }) => console.log(account)))
-// 				.catch(err => console.error(err))
-// 		)
+// Follow.findFollowed({ accountId: 3 })
+// 	.then(
+// 		res => console.log(res)
+// 		// res.map(({ followed }) =>
+// 		// 	Promise.all([Account.getAccountById({ id: followed })])
+// 		// 		.then(accounts => accounts.map(({ account }) => console.log(account)))
+// 		// 		.catch(err => console.error(err))
+// 		// )
 // 	)
-//   .catch(err => console.error(err))
+// 	.catch(err => console.error(err))
 
-// Follow.findFollowing({ accountId: 2 })
+// Follow.findFollowing({ accountId: 1 })
 // 	.then(res =>
 // 		res.map(({ following }) =>
 // 			Promise.all([Account.getAccountById({ id: following })])

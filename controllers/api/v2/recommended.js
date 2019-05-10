@@ -6,6 +6,7 @@ const router = express.Router()
 const UserCategory = require('../../../models/api/v2/userCategory')
 const Question = require('../../../models/api/v2/question')
 const Answer = require('../../../models/api/v2/answer')
+const Follow = require('../../../models/api/v2/follow')
 
 //recommended questions based on categories that user liked
 router.get(
@@ -13,14 +14,12 @@ router.get(
 	passport.authenticate('jwt', { session: false }),
 	(req, res, next) => {
 		const { id } = req.user
+		let aggregateRecommendedQs = []
+		let dupsRemoved = []
 		Question.getRecommendedQsByCates({ accountId: id })
 			.then(({ questions }) => {
 				if (questions && questions.length > 0) {
-					res.json({
-						type: 'FOUND',
-						message: 'Here are some questions based on the users\' categories',
-						questions: questions
-					})
+					questions.map(question => aggregateRecommendedQs.push(question))
 				} else {
 					//todo: recommended questions by upvotes/answered/commented
 					//questions categories
@@ -44,7 +43,44 @@ router.get(
 					})
 				}
 			})
-			.catch(err => next(err))
+			.then(() => {
+				Follow.findFollowed({ accountId: id }).then(resp => {
+					resp.map(({ followed }) => {
+						Promise.all([
+							UserCategory.getUserCategories({ accountId: followed })
+						]).then(resp => {
+							resp.map(({ categories }) => {
+								// console.log(categories)
+								categories.map(({ categoryId }) => {
+									Promise.all([Question.getQuestionsByCategory({ categoryId })])
+										.then(resp => {
+											resp.map(({ questions }) => {
+												aggregateRecommendedQs.push(questions[0])
+											})
+										})
+										.then(() => {
+											//remove duplicates
+											dupsRemoved = Object.values(
+												aggregateRecommendedQs.reduce(
+													(a, c) => ((a[`${c.id}`] = c), a),
+													{}
+												)
+											)
+										})
+								})
+							})
+						})
+					})
+				})
+			})
+		setTimeout(() => {
+			res.json({
+				type: 'FOUND',
+				message:
+					'Here are some questions based on the users and his/hers followed users categories',
+				questions: dupsRemoved
+			})
+		}, 200)
 	}
 )
 
