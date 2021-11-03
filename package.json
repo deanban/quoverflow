@@ -31,6 +31,6 @@
     "pg": "^7.9.0",
     "underscore": "^1.9.1",
     "underscore.string": "^3.3.5",
-    "validator": "^10.10.0"
+    "validator": "^13.7.0"
   }
 }
